@@ -485,16 +485,20 @@
       if (t.includes("stardew")) return "stardew";
       return "void";
     }
+    function coverSlug(title) {
+      return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
     function gameCard(game) {
       const st = STATUS_META[game.status] || STATUS_META.new;
       const tags = (game.tags || []).map((t) => `<span class="g-tag">${TAG_META[t] || t}</span>`).join("");
       const key = coverKey(game);
+      const generatedCover = `assets/covers/generated/${coverSlug(game.title)}.jpg`;
       const cover = game.cover
         ? `<img class="cover-img" src="${game.cover}" alt="${game.title}" data-title="${game.title}" loading="lazy" onerror="coverFallback(this)">`
-        : `<img class="cover-img" src="${COVER_ART[key]}" alt="${game.title}" loading="lazy">`;
+        : `<img class="cover-img" src="${generatedCover}" alt="Обложка игры ${game.title}" loading="lazy" onerror="this.onerror=null;this.src='${COVER_ART[key]}'">`;
       return `
         <article class="game" data-title="${game.title.toLowerCase()}">
-          <div class="cover cover--${key}">${cover}<span class="cover-title">${game.title}</span><span class="badge ${st.cls}">${st.label}</span></div>
+          <div class="cover cover--${key}">${cover}<span class="badge ${st.cls}">${st.label}</span></div>
           <div class="info">
             <h3 class="g-title">${game.title}</h3>
             <div class="g-meta"><span>${game.genre}</span><span>${game.year}</span></div>
