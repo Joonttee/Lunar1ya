@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lunar1ya — Библиотека игр</title>
+  <meta name="description" content="Личная библиотека игр Lunar1ya: каталог с фильтрами по статусу, жанру и эпохе." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060f'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%237c5cff'/%3E%3C/svg%3E" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #05060f;
+      --bg-2: #0b0f24;
+      --surface: rgba(22, 27, 54, 0.6);
+      --surface-2: rgba(30, 36, 70, 0.75);
+      --text: #e8ecff;
+      --muted: #9aa3c7;
+      --accent: #7c5cff;
+      --accent-2: #4d9fff;
+      --border: rgba(124, 92, 255, 0.25);
+      --radius: 16px;
+      --maxw: 1200px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 70% -10%, #1b2a6e 0%, transparent 60%),
+                  radial-gradient(900px 700px at 10% 10%, #2a1d6e 0%, transparent 55%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+      overflow-x: hidden;
+      position: relative;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .stars {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 80% 20%, #cdd6ff, transparent),
+        radial-gradient(1px 1px at 50% 70%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 35% 85%, #fff, transparent),
+        radial-gradient(1px 1px at 65% 50%, #aab4ff, transparent),
+        radial-gradient(1.5px 1.5px at 90% 80%, #fff, transparent);
+      background-repeat: repeat; background-size: 600px 600px; opacity: 0.5;
+      animation: twinkle 6s ease-in-out infinite alternate;
+    }
+    @keyframes twinkle { from { opacity: 0.35; } to { opacity: 0.7; } }
+    .moon {
+      position: fixed; top: -120px; right: -100px; width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fdfbff 0%, #c9c6e8 45%, #6f6c9c 100%);
+      box-shadow: 0 0 120px 30px rgba(160,170,255,0.25), inset -30px -30px 60px rgba(0,0,0,0.35);
+      z-index: 0; pointer-events: none; opacity: 0.8;
+    }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 14px clamp(16px, 4vw, 48px);
+      backdrop-filter: blur(12px); background: rgba(5,6,15,0.55);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: 2px; }
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff, #8a86c9 60%, #45427a);
+      box-shadow: 0 0 18px rgba(140,130,255,0.6);
+    }
+    .logo-text { font-size: 1.1rem; }
+    .accent { color: var(--accent-2); }
+    .nav a { color: var(--muted); font-weight: 600; }
+    .nav a:hover { color: var(--text); }
+
+    .hero {
+      position: relative; z-index: 1; text-align: center;
+      padding: clamp(60px, 10vw, 110px) clamp(16px, 4vw, 48px) clamp(30px, 6vw, 60px);
+      max-width: var(--maxw); margin: 0 auto;
+    }
+    .eyebrow { text-transform: uppercase; letter-spacing: 4px; font-size: 0.78rem; color: var(--accent-2); margin-bottom: 14px; }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 800; line-height: 1.1;
+      background: linear-gradient(120deg, #fff, #b8b2ff 60%, var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-sub { color: var(--muted); margin: 16px auto 0; max-width: 560px; }
+    .stats { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 22px; min-width: 130px;
+    }
+    .stat-num { display: block; font-size: 1.9rem; font-weight: 800; color: var(--accent-2); }
+    .stat-label { color: var(--muted); font-size: 0.85rem; }
+
+    .section { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 20px clamp(16px, 4vw, 48px) 60px; }
+
+    .status-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .sbtn {
+      padding: 9px 16px; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+      font-weight: 600; font-size: 0.9rem; transition: all .2s;
+    }
+    .sbtn:hover { color: var(--text); }
+    .sbtn.is-active { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #0b0f24; border-color: transparent; }
+
+    .controls {
+      display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
+    }
+    .search {
+      flex: 1 1 220px; min-width: 200px; padding: 11px 14px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(5,6,15,0.5); color: var(--text); font-size: 0.95rem;
+    }
+    .search::placeholder { color: var(--muted); }
+    .select-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .select-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    select {
+      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
+      background: rgba(5,6,15,0.5); color: var(--text); font-size: 0.9rem; cursor: pointer; min-width: 160px;
+    }
+    .reset {
+      padding: 11px 16px; border-radius: 12px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); cursor: pointer; font-weight: 600; transition: all .2s;
+    }
+    .reset:hover { color: var(--text); background: var(--surface-2); }
+    .view-toggle { display: flex; gap: 6px; margin-left: auto; }
+    .vbtn {
+      padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
+      background: rgba(5,6,15,0.5); color: var(--muted); cursor: pointer; font-weight: 600; transition: all .2s;
+    }
+    .vbtn.is-active { background: var(--accent); color: #fff; border-color: transparent; }
+
+    .result-count { color: var(--muted); font-size: 0.88rem; margin: 4px 2px 16px; }
+
+    .games[data-view="grid"] {
+      display: grid; gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+    .games[data-view="list"] { display: flex; flex-direction: column; gap: 10px; }
+
+    .game {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .game:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.45); border-color: rgba(124,92,255,0.5); }
+
+    .cover { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
+    .games[data-view="list"] .cover { aspect-ratio: auto; width: 64px; height: 64px; flex-shrink: 0; border-radius: 10px; }
+    .cover-img { width: 100%; height: 100%; object-fit: cover; }
+    .ph-cover {
+      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; font-weight: 800; color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .badge {
+      position: absolute; top: 8px; left: 8px; font-size: 0.7rem; font-weight: 700;
+      padding: 4px 9px; border-radius: 999px; backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.55); color: #fff;
+    }
+    .st-new     { background: rgba(120,130,200,0.85); }
+    .st-playing { background: rgba(54,224,208,0.9); color: #04201d; }
+    .st-done    { background: rgba(80,200,120,0.9); color: #04210f; }
+    .st-planned { background: rgba(255,180,80,0.9); color: #2a1800; }
+
+    .info { padding: 12px 14px 14px; }
+    .games[data-view="list"] .game { display: flex; align-items: center; gap: 14px; padding: 10px 14px; }
+    .games[data-view="list"] .info { padding: 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; }
+    .g-title { font-size: 0.98rem; font-weight: 700; line-height: 1.25; }
+    .games[data-view="list"] .g-title { flex: 1 1 200px; }
+    .g-meta { display: flex; gap: 10px; color: var(--muted); font-size: 0.82rem; margin-top: 4px; }
+    .g-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .games[data-view="list"] .g-tags { margin-top: 0; }
+    .g-tag { font-size: 0.7rem; color: var(--accent-2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; }
+
+    .empty { text-align: center; color: var(--muted); padding: 50px 0; }
+
+    .site-footer { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
+
+    @media (max-width: 640px) {
+      .view-toggle { margin-left: 0; width: 100%; }
+      .vbtn { flex: 1; }
+      .controls { gap: 10px; }
+      select { min-width: 0; flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#top">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="logo-text">LUNAR<span class="accent">1</span>YA</span>
+    </a>
+    <nav class="nav" aria-label="Меню">
+      <a href="#library">Библиотека</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <p class="eyebrow">Личная коллекция</p>
+      <h1>Библиотека игр</h1>
+      <p class="hero-sub">Каталог игр с фильтрами по статусу, жанру и эпохе. Всё под рукой.</p>
+
+      <div class="stats" id="stats">
+        <div class="stat"><span class="stat-num" data-stat="total">0</span><span class="stat-label">🎮 Всего игр</span></div>
+        <div class="stat"><span class="stat-num" data-stat="playing">0</span><span class="stat-label">⏳ В процессе</span></div>
+        <div class="stat"><span class="stat-num" data-stat="done">0</span><span class="stat-label">✅ Пройдено</span></div>
+        <div class="stat"><span class="stat-num" data-stat="planned">0</span><span class="stat-label">📌 В планах</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="section" id="library">
+    <div class="status-bar" id="statusBar" role="tablist" aria-label="Статус">
+      <button class="sbtn is-active" data-status="all">🎮 Все игры</button>
+      <button class="sbtn" data-status="playing">⏳ В процессе</button>
+      <button class="sbtn" data-status="done">✅ Пройдены</button>
+      <button class="sbtn" data-status="planned">📌 В планах</button>
+      <button class="sbtn" data-status="new">🆕 Не начато</button>
+      <button class="sbtn" data-status="mp">🕹️ MP</button>
+      <button class="sbtn" data-status="coop">🤝 Coop</button>
+    </div>
+
+    <div class="controls">
+      <input type="search" id="search" class="search" placeholder="🔎 Поиск по названию…" aria-label="Поиск" />
+
+      <label class="select-wrap">
+        <span class="select-label">Жанр</span>
+        <select id="genreFilter" aria-label="Фильтр по жанру"></select>
+      </label>
+
+      <label class="select-wrap">
+        <span class="select-label">Эпоха</span>
+        <select id="eraFilter" aria-label="Фильтр по эпохе">
+          <option value="all">Все эпохи</option>
+          <option value="new">🔥 Новинки (2024–2026)</option>
+          <option value="modern">⚡ Современные (2018–2023)</option>
+          <option value="retro">📜 Ретро & Классика (до 2018)</option>
+        </select>
+      </label>
+
+      <label class="select-wrap">
+        <span class="select-label">Сортировка</span>
+        <select id="sort" aria-label="Сортировка">
+          <option value="title-asc">Название (А → Я)</option>
+          <option value="title-desc">Название (Я → А)</option>
+          <option value="year-desc">Год (сначала новые)</option>
+          <option value="year-asc">Год (сначала старые)</option>
+        </select>
+      </label>
+
+      <button class="reset" id="reset">✕ Сбросить</button>
+
+      <div class="view-toggle" role="group" aria-label="Вид">
+        <button class="vbtn is-active" data-view="grid" aria-label="Сетка">▦ Сетка</button>
+        <button class="vbtn" data-view="list" aria-label="Список">☰ Список</button>
+      </div>
+    </div>
+
+    <p class="result-count" id="resultCount"></p>
+
+    <div class="games" id="games" data-view="grid"></div>
+
+    <p class="empty" id="empty" hidden>Ничего не найдено. Попробуйте изменить фильтры.</p>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Lunar1ya · Библиотека игр</p>
+  </footer>
+
+  <script>
+    /* ===== Данные: список игр =====
+       Чтобы добавить игру — добавьте объект в массив GAMES:
+       { title: "Название", genre: "Экшены", year: 2024, status: "playing", tags: ["coop"] }
+       status: new | playing | done | planned ; tags: mp | coop (необязательно)
+       cover: "covers/name.jpg" (необязательно; без него — цветная заглушка) */
+    const GAMES = [
+      // Импорт из публичного профиля Rankone: https://www.rankone.global/lunahoomalu
+      // Взяты видимые игры (избранное + показанные отзывы). Жанры/статусы — лучшая догадка, правьте под себя.
+      { title: "Constance",                genre: "Инди",               year: 2025, status: "done",     tags: [] },
+      { title: "Grime II",                 genre: "Экшены",             year: 2026, status: "done",     tags: [] },
+      { title: "RV There Yet?",            genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"] },
+      { title: "Peak",                     genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"] },
+      { title: "Valorant",                 genre: "Экшены",             year: 2020, status: "playing",  tags: ["mp"] },
+      { title: "Hollow Knight",            genre: "Приключения",        year: 2017, status: "done",     tags: [] },
+      { title: "Hollow Knight: Silksong",  genre: "Приключения",        year: 2025, status: "done",     tags: [] },
+      { title: "Replaced",                 genre: "Экшены",             year: 2023, status: "done",     tags: [] },
+      // В планах (добавлено вручную):
+      { title: "Little Misfortune",         genre: "Приключения",        year: 2019, status: "planned",  tags: [] },
+      { title: "Bendy and the Ink Factory", genre: "Экшены",             year: 2026, status: "planned",  tags: [] }, // Steam: TBA / coming soon
+      { title: "Cult of the Lamb",          genre: "Экшены",             year: 2022, status: "planned",  tags: [] },
+      { title: "Portal 2",                  genre: "Головоломки",        year: 2011, status: "planned",  tags: [] },
+      { title: "Split Fiction",             genre: "Приключения",        year: 2025, status: "planned",  tags: ["coop"] },
+      { title: "Little Nightmares II",      genre: "Приключения",        year: 2021, status: "planned",  tags: ["coop"] },
+      { title: "Stardew Valley",            genre: "Симуляторы",         year: 2016, status: "planned",  tags: ["coop"] },
+      { title: "The Last of Us Part I",     genre: "Экшены",             year: 2022, status: "planned",  tags: [] },
+      { title: "Outlast",                   genre: "Экшены",             year: 2013, status: "planned",  tags: [] },
+      // В процессе (добавлено вручную):
+      { title: "Metro: Last Light Redux",   genre: "Экшены",             year: 2019, status: "playing",  tags: [] },
+      { title: "Stray",                     genre: "Приключения",        year: 2022, status: "playing",  tags: [] },
+      // Пройдены (добавлено вручную):
+      { title: "Moomintroll: Winter's Warmth", genre: "Приключения",    year: 2024, status: "done",     tags: [] },
+      { title: "Little Nightmares",            genre: "Приключения",    year: 2017, status: "done",     tags: [] },
+      { title: "Little Nightmares III",        genre: "Приключения",    year: 2025, status: "done",     tags: ["coop"] },
+      { title: "Resident Evil Requiem",        genre: "Экшены",          year: 2026, status: "done",     tags: [] },
+      { title: "Scam Line",                    genre: "Инди",            year: 2024, status: "done",     tags: [] },
+      // Пройдены (добавлено вручную, продолжение) — годы/жанры сверены по Steam:
+      { title: "Fran Bow",                      genre: "Приключения",    year: 2015, status: "done",     tags: [] },
+      { title: "The Past Within",               genre: "Приключения",    year: 2022, status: "done",     tags: ["coop"] },
+      { title: "Creepy Tale",                   genre: "Приключения",    year: 2020, status: "done",     tags: [] },
+      { title: "The Mortuary Assistant",        genre: "Приключения",    year: 2022, status: "done",     tags: [] },
+      { title: "We Were Here",                  genre: "Экшены",          year: 2017, status: "done",     tags: ["coop"] },
+      { title: "We Were Here Too",              genre: "Приключения",    year: 2018, status: "done",     tags: ["coop"] },
+      { title: "We Were Here Together",         genre: "Приключения",    year: 2019, status: "done",     tags: ["coop"] },
+      { title: "We Were Here Forever",          genre: "Приключения",    year: 2021, status: "done",     tags: ["coop"] },
+      { title: "Escape the Backrooms",          genre: "Экшены",          year: 2025, status: "done",     tags: ["coop"] },
+      { title: "Mafia II: Definitive Edition",  genre: "Экшены",          year: 2020, status: "done",     tags: [] },
+      { title: "Mafia: Definitive Edition",     genre: "Экшены",          year: 2020, status: "done",     tags: [] },
+      { title: "Reanimal",                      genre: "Приключения",    year: 2026, status: "done",     tags: [] },
+      { title: "We Were Here Expeditions: The FriendShip", genre: "Приключения", year: 2023, status: "done", tags: ["coop"] },
+      { title: "Call of the Sea",               genre: "Приключения",    year: 2020, status: "done",     tags: [] },
+      { title: "Labyrinthine",                  genre: "Экшены",          year: 2023, status: "done",     tags: ["coop"] },
+      { title: "Better Mart Simulator",         genre: "Симуляторы",      year: 2025, status: "done",     tags: [] },
+      { title: "Lost in Play",                  genre: "Приключения",    year: 2022, status: "done",     tags: [] },
+      { title: "There Is No Game",              genre: "Приключения",    year: 2020, status: "done",     tags: [] },
+      { title: "It Takes Two",                  genre: "Экшены",          year: 2021, status: "done",     tags: ["coop"] },
+      { title: "The Last Campfire",             genre: "Приключения",    year: 2021, status: "done",     tags: [] },
+      { title: "Metro 2033 Redux",              genre: "Экшены",          year: 2014, status: "done",     tags: [] }
+    ];
+
+    /* ===== Логика интерфейса ===== */
+    const STATUS_META = {
+      new:     { label: "🆕 Не начато",  cls: "st-new" },
+      playing: { label: "⏳ В процессе", cls: "st-playing" },
+      done:    { label: "✅ Пройдено",  cls: "st-done" },
+      planned: { label: "📌 В планах",   cls: "st-planned" }
+    };
+    const TAG_META = { mp: "🕹️ MP", coop: "🤝 Coop" };
+
+    const state = { status: "all", genre: "all", era: "all", query: "", sort: "title-asc", view: "grid" };
+    const $ = (s) => document.querySelector(s);
+    const gamesEl = $("#games");
+    const emptyEl = $("#empty");
+    const resultCountEl = $("#resultCount");
+
+    function hashString(str) {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+      return h;
+    }
+    function placeholderCover(title) {
+      const h = hashString(title);
+      const hue1 = h % 360;
+      const hue2 = (hue1 + 60 + (h % 120)) % 360;
+      const bg = `linear-gradient(135deg, hsl(${hue1} 60% 35%), hsl(${hue2} 65% 22%))`;
+      const letter = title.trim().charAt(0).toUpperCase();
+      return `<div class="ph-cover" style="background:${bg}">${letter}</div>`;
+    }
+    function coverFallback(img) {
+      const ph = placeholderCover(img.getAttribute("data-title") || "?");
+      img.insertAdjacentHTML("afterend", ph);
+      img.remove();
+    }
+
+    function gameCard(game) {
+      const st = STATUS_META[game.status] || STATUS_META.new;
+      const tags = (game.tags || []).map((t) => `<span class="g-tag">${TAG_META[t] || t}</span>`).join("");
+      const cover = game.cover
+        ? `<img class="cover-img" src="${game.cover}" alt="${game.title}" data-title="${game.title}" loading="lazy" onerror="coverFallback(this)">`
+        : placeholderCover(game.title);
+      return `
+        <article class="game" data-title="${game.title.toLowerCase()}">
+          <div class="cover">${cover}<span class="badge ${st.cls}">${st.label}</span></div>
+          <div class="info">
+            <h3 class="g-title">${game.title}</h3>
+            <div class="g-meta"><span>${game.genre}</span><span>${game.year}</span></div>
+            <div class="g-tags">${tags}</div>
+          </div>
+        </article>`;
+    }
+
+    function renderStats() {
+      const counts = { total: GAMES.length, playing: 0, done: 0, planned: 0 };
+      GAMES.forEach((g) => { if (counts[g.status] !== undefined) counts[g.status]++; });
+      document.querySelectorAll("#stats [data-stat]").forEach((el) => { el.textContent = counts[el.dataset.stat]; });
+    }
+
+    function fillGenres() {
+      const genres = [...new Set(GAMES.map((g) => g.genre))].sort((a, b) => a.localeCompare(b, "ru"));
+      $("#genreFilter").innerHTML = `<option value="all">Все жанры</option>` + genres.map((g) => `<option value="${g}">${g}</option>`).join("");
+    }
+
+    function getFiltered() {
+      let list = GAMES.filter((g) => {
+        if (state.status === "all") {
+          // все
+        } else if (["mp", "coop"].includes(state.status)) {
+          if (!(g.tags || []).includes(state.status)) return false;
+        } else if (g.status !== state.status) {
+          return false;
+        }
+        if (state.genre !== "all" && g.genre !== state.genre) return false;
+        if (state.era === "new" && !(g.year >= 2024)) return false;
+        if (state.era === "modern" && !(g.year >= 2018 && g.year <= 2023)) return false;
+        if (state.era === "retro" && !(g.year < 2018)) return false;
+        if (state.query && !g.title.toLowerCase().includes(state.query)) return false;
+        return true;
+      });
+      const cmp = {
+        "title-asc":  (a, b) => a.title.localeCompare(b.title, "ru"),
+        "title-desc": (a, b) => b.title.localeCompare(a.title, "ru"),
+        "year-desc":  (a, b) => b.year - a.year,
+        "year-asc":   (a, b) => a.year - b.year
+      }[state.sort];
+      list.sort(cmp);
+      return list;
+    }
+
+    function render() {
+      const list = getFiltered();
+      gamesEl.dataset.view = state.view;
+      gamesEl.innerHTML = list.map(gameCard).join("");
+      emptyEl.hidden = list.length !== 0;
+      const word = list.length === 1 ? "игра" : (list.length < 5 ? "игры" : "игр");
+      resultCountEl.textContent = `Показано: ${list.length} ${word}`;
+    }
+
+    function bindEvents() {
+      $("#statusBar").addEventListener("click", (e) => {
+        const btn = e.target.closest(".sbtn");
+        if (!btn) return;
+        $("#statusBar .sbtn").forEach((b) => b.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        state.status = btn.dataset.status;
+        render();
+      });
+      $("#genreFilter").addEventListener("change", (e) => { state.genre = e.target.value; render(); });
+      $("#eraFilter").addEventListener("change", (e) => { state.era = e.target.value; render(); });
+      $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+      let t;
+      $("#search").addEventListener("input", (e) => {
+        clearTimeout(t);
+        t = setTimeout(() => { state.query = e.target.value.trim().toLowerCase(); render(); }, 120);
+      });
+      document.querySelectorAll(".vbtn").forEach((b) => {
+        b.addEventListener("click", () => {
+          document.querySelectorAll(".vbtn").forEach((x) => x.classList.remove("is-active"));
+          b.classList.add("is-active");
+          state.view = b.dataset.view;
+          render();
+        });
+      });
+      $("#reset").addEventListener("click", () => {
+        state.status = "all"; state.genre = "all"; state.era = "all"; state.query = ""; state.sort = "title-asc";
+        $("#search").value = "";
+        $("#genreFilter").value = "all";
+        $("#eraFilter").value = "all";
+        $("#sort").value = "title-asc";
+        $("#statusBar .sbtn").forEach((b) => b.classList.toggle("is-active", b.dataset.status === "all"));
+        render();
+      });
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderStats();
+    fillGenres();
+    bindEvents();
+    render();
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1d5e0ff6c1de95c',t:'MTc4NDQyMzc2Ng=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
