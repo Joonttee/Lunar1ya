@@ -103,50 +103,19 @@ def svg_for(a, b, kind, accent, title):
 </svg>'''
 
 # These titles use bespoke raster illustrations generated with the character
-# reference. Keep them out of the SVG fallback set when regenerating.
+# reference. They are kept out of the SVG fallback set when regenerating.
 BESPOKE_RASTER = {
     "constance", "grime-ii", "rv-there-yet", "peak", "valorant",
     "hollow-knight", "hollow-knight-silksong", "replaced",
-    "bendy-and-the-ink-factory",
-}
-
-# These retain their game-specific raster scene as a dimmed background while
-# the new ferret character and title are placed in the foreground.
-COMPOSITE_BACKGROUNDS = {
-    "cult-of-the-lamb", "portal-2", "little-nightmares-ii", "stardew-valley",
-    "the-last-of-us-part-i", "outlast", "metro-last-light-redux", "stray",
-    "resident-evil-requiem", "it-takes-two",
+    "bendy-and-the-ink-factory", "cult-of-the-lamb", "portal-2",
+    "little-nightmares-ii", "stardew-valley", "the-last-of-us-part-i",
+    "outlast", "metro-last-light-redux", "stray", "resident-evil-requiem",
+    "it-takes-two",
 }
 
 for slug, (a, b, kind, accent) in THEMES.items():
-    if slug in BESPOKE_RASTER or slug in COMPOSITE_BACKGROUNDS:
+    if slug in BESPOKE_RASTER:
         continue
     (OUT / f"{slug}.svg").write_text(svg_for(a, b, kind, accent, TITLE_BY_SLUG[slug]), encoding="utf-8")
 
-
-def composite_svg(slug, title):
-    words = title.split()
-    lines, current = [], ""
-    for word in words:
-        if current and len(current) + len(word) + 1 > 22:
-            lines.append(current)
-            current = word
-        else:
-            current = f"{current} {word}".strip()
-    if current:
-        lines.append(current)
-    title_svg = "".join(
-        f'<text x="34" y="{790 + index * 35}" fill="#fff" font-family="system-ui,sans-serif" font-size="30" font-weight="900">{escape(line)}</text>'
-        for index, line in enumerate(lines[:3])
-    )
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 672 900" role="img" aria-label="Обложка игры {escape(title)}">
-<defs><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#050811" stop-opacity=".16"/><stop offset=".72" stop-color="#050811" stop-opacity=".26"/><stop offset="1" stop-color="#050811" stop-opacity=".94"/></linearGradient><filter id="soft"><feGaussianBlur stdDeviation="7"/></filter></defs>
-<image xlink:href="backgrounds/{slug}.jpg" width="672" height="900" preserveAspectRatio="xMidYMid slice" filter="url(#soft)" opacity=".72"/><rect width="672" height="900" fill="#081020" fill-opacity=".42"/><image xlink:href="../character/lunar1ya-ferret-figure.webp" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet"/><rect width="672" height="900" fill="url(#shade)"/>
-<path d="M34 48H190" stroke="#c5eaff" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text><rect x="22" y="744" width="628" height="136" rx="12" fill="#050811" fill-opacity=".32"/>
-{title_svg}
-</svg>'''
-
-for slug in COMPOSITE_BACKGROUNDS:
-    (OUT / f"{slug}.svg").write_text(composite_svg(slug, TITLE_BY_SLUG[slug]), encoding="utf-8")
-
-print(f"wrote {len(THEMES)} SVG covers to {OUT}")
+print(f"wrote {len(THEMES) - len(BESPOKE_RASTER)} SVG covers to {OUT}")
