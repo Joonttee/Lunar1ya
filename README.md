@@ -11,9 +11,11 @@
 ├── js/games.js                 # список игр и пути к обложкам
 ├── js/app.js                   # фильтры, сортировка, карточки и статистика
 ├── assets/
-│   ├── character/              # персонаж Lunar1ya в WebP
+│   ├── character/              # персонаж Lunar1ya с ушками хорька в WebP
 │   └── covers/                 # обложки игр: JPG (сюжетные) и SVG (тематические)
-└── tools/make_vector_covers.py # генератор тематических SVG-обложек
+└── tools/
+    ├── make_vector_covers.py   # генератор тематических SVG-обложек
+    └── add_cover_titles.py     # добавляет названия на JPG-обложки
 ```
 
 ## Как изменить список игр
@@ -44,6 +46,7 @@ python3 -m http.server 8000
 
 ```bash
 python3 tools/make_vector_covers.py
+python3 tools/add_cover_titles.py
 ```
 
-Скрипт не требует сторонних библиотек и перезаписывает SVG-файлы в `assets/covers/`.
+Первый скрипт перегенерирует SVG-обложки, второй добавляет названия на JPG-обложки. Оба используют локальные файлы и не требуют сторонних Python-библиотек.

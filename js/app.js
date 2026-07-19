@@ -43,7 +43,7 @@ import { GAMES, COVER_ART } from "./games.js";
         : placeholderCover(game.title);
       return `
         <article class="game" data-title="${game.title.toLowerCase()}">
-          <div class="cover">${cover}<span class="cover-brand">LUNAR1YA</span><span class="cover-label">${game.title}</span><span class="badge ${st.cls}">${st.label}</span></div>
+          <div class="cover">${cover}<span class="cover-brand">LUNAR1YA</span><span class="badge ${st.cls}">${st.label}</span></div>
           <div class="info">
             <h3 class="g-title">${game.title}</h3>
             <div class="g-meta"><span>${game.genre}</span><span>${game.year}</span></div>

@@ -46,8 +46,10 @@ THEMES = {
     "metro-2033-redux": ("#667b65", "#12181d", "tunnel", "#f0af5b"),
 }
 
+TITLE_BY_SLUG = {'little-misfortune': 'Little Misfortune', 'cult-of-the-lamb': 'Cult of the Lamb', 'portal-2': 'Portal 2', 'split-fiction': 'Split Fiction', 'little-nightmares-ii': 'Little Nightmares II', 'stardew-valley': 'Stardew Valley', 'the-last-of-us-part-i': 'The Last of Us Part I', 'outlast': 'Outlast', 'metro-last-light-redux': 'Metro: Last Light Redux', 'stray': 'Stray', 'moomintroll-winters-warmth': "Moomintroll: Winter's Warmth", 'little-nightmares': 'Little Nightmares', 'little-nightmares-iii': 'Little Nightmares III', 'resident-evil-requiem': 'Resident Evil Requiem', 'scam-line': 'Scam Line', 'fran-bow': 'Fran Bow', 'the-past-within': 'The Past Within', 'creepy-tale': 'Creepy Tale', 'the-mortuary-assistant': 'The Mortuary Assistant', 'we-were-here': 'We Were Here', 'we-were-here-too': 'We Were Here Too', 'we-were-here-together': 'We Were Here Together', 'we-were-here-forever': 'We Were Here Forever', 'escape-the-backrooms': 'Escape the Backrooms', 'mafia-ii-definitive-edition': 'Mafia II: Definitive Edition', 'mafia-definitive-edition': 'Mafia: Definitive Edition', 'reanimal': 'Reanimal', 'we-were-here-expeditions-the-friendship': 'We Were Here Expeditions: The FriendShip', 'call-of-the-sea': 'Call of the Sea', 'labyrinthine': 'Labyrinthine', 'better-mart-simulator': 'Better Mart Simulator', 'lost-in-play': 'Lost in Play', 'there-is-no-game': 'There Is No Game', 'it-takes-two': 'It Takes Two', 'the-last-campfire': 'The Last Campfire', 'metro-2033-redux': 'Metro 2033 Redux'}
 
-def svg_for(a, b, kind, accent):
+
+def svg_for(a, b, kind, accent, title):
     # Decorative layer is intentionally simple: it stays crisp at card size and
     # makes each fallback feel like a designed cover rather than a flat gradient.
     shapes = {
@@ -77,25 +79,74 @@ def svg_for(a, b, kind, accent):
     }
     deco = shapes.get(kind, shapes["neon"])
     pattern = f'''<pattern id="grain" width="38" height="38" patternUnits="userSpaceOnUse"><circle cx="4" cy="6" r="1" fill="#fff" opacity=".12"/><circle cx="25" cy="21" r="1" fill="#fff" opacity=".08"/><path d="M0 37L38 0" stroke="#fff" stroke-width="1" opacity=".025"/></pattern>'''
+    words = title.split()
+    lines, current = [], ""
+    for word in words:
+        if current and len(current) + len(word) + 1 > 22:
+            lines.append(current)
+            current = word
+        else:
+            current = f"{current} {word}".strip()
+    if current:
+        lines.append(current)
+    title_svg = "".join(
+        f'<text x="34" y="{790 + index * 35}" fill="#fff" font-family="system-ui,sans-serif" font-size="30" font-weight="900">{escape(line)}</text>'
+        for index, line in enumerate(lines[:3])
+    )
     return f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 672 900" role="img" aria-label="Обложка игры Lunar1ya">
 <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{a}"/><stop offset="1" stop-color="{b}"/></linearGradient><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#050811" stop-opacity=".08"/><stop offset=".7" stop-color="#050811" stop-opacity=".08"/><stop offset="1" stop-color="#050811" stop-opacity=".88"/></linearGradient>{pattern}</defs>
 <rect width="672" height="900" fill="url(#bg)"/>{deco}<rect width="672" height="900" fill="url(#grain)"/>
-<image xlink:href="../character/lunar1ya-catgirl-figure.webp" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet" opacity=".98"/>
+<image xlink:href="../character/lunar1ya-ferret-figure.webp" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet" opacity=".98"/>
 <rect width="672" height="900" fill="url(#shade)"/>
-<path d="M34 48H190" stroke="{accent}" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text>
+<path d="M34 48H190" stroke="{accent}" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text><rect x="22" y="744" width="628" height="136" rx="12" fill="#050811" fill-opacity=".32"/>
+{title_svg}
 </svg>'''
 
 # These titles use bespoke raster illustrations generated with the character
 # reference. Keep them out of the SVG fallback set when regenerating.
 BESPOKE_RASTER = {
+    "constance", "grime-ii", "rv-there-yet", "peak", "valorant",
+    "hollow-knight", "hollow-knight-silksong", "replaced",
+    "bendy-and-the-ink-factory",
+}
+
+# These retain their game-specific raster scene as a dimmed background while
+# the new ferret character and title are placed in the foreground.
+COMPOSITE_BACKGROUNDS = {
     "cult-of-the-lamb", "portal-2", "little-nightmares-ii", "stardew-valley",
     "the-last-of-us-part-i", "outlast", "metro-last-light-redux", "stray",
     "resident-evil-requiem", "it-takes-two",
 }
 
 for slug, (a, b, kind, accent) in THEMES.items():
-    if slug in BESPOKE_RASTER:
+    if slug in BESPOKE_RASTER or slug in COMPOSITE_BACKGROUNDS:
         continue
-    (OUT / f"{slug}.svg").write_text(svg_for(a, b, kind, accent), encoding="utf-8")
+    (OUT / f"{slug}.svg").write_text(svg_for(a, b, kind, accent, TITLE_BY_SLUG[slug]), encoding="utf-8")
 
-print(f"wrote {len(THEMES) - len(BESPOKE_RASTER)} SVG covers to {OUT}")
+
+def composite_svg(slug, title):
+    words = title.split()
+    lines, current = [], ""
+    for word in words:
+        if current and len(current) + len(word) + 1 > 22:
+            lines.append(current)
+            current = word
+        else:
+            current = f"{current} {word}".strip()
+    if current:
+        lines.append(current)
+    title_svg = "".join(
+        f'<text x="34" y="{790 + index * 35}" fill="#fff" font-family="system-ui,sans-serif" font-size="30" font-weight="900">{escape(line)}</text>'
+        for index, line in enumerate(lines[:3])
+    )
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 672 900" role="img" aria-label="Обложка игры {escape(title)}">
+<defs><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#050811" stop-opacity=".16"/><stop offset=".72" stop-color="#050811" stop-opacity=".26"/><stop offset="1" stop-color="#050811" stop-opacity=".94"/></linearGradient><filter id="soft"><feGaussianBlur stdDeviation="7"/></filter></defs>
+<image xlink:href="backgrounds/{slug}.jpg" width="672" height="900" preserveAspectRatio="xMidYMid slice" filter="url(#soft)" opacity=".72"/><rect width="672" height="900" fill="#081020" fill-opacity=".42"/><image xlink:href="../character/lunar1ya-ferret-figure.webp" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet"/><rect width="672" height="900" fill="url(#shade)"/>
+<path d="M34 48H190" stroke="#c5eaff" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text><rect x="22" y="744" width="628" height="136" rx="12" fill="#050811" fill-opacity=".32"/>
+{title_svg}
+</svg>'''
+
+for slug in COMPOSITE_BACKGROUNDS:
+    (OUT / f"{slug}.svg").write_text(composite_svg(slug, TITLE_BY_SLUG[slug]), encoding="utf-8")
+
+print(f"wrote {len(THEMES)} SVG covers to {OUT}")

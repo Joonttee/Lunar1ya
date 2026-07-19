@@ -185,8 +185,7 @@
     .game:hover .cover-img { transform: scale(1.04); filter: saturate(1.08) contrast(1.04); }
     .cover::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(3,5,15,.18) 0%, transparent 45%, rgba(3,5,15,.86) 100%); }
     .cover-brand { position: absolute; top: 10px; right: 10px; z-index: 2; padding: 4px 7px; border: 1px solid rgba(255,255,255,.3); border-radius: 6px; background: rgba(4,6,16,.46); color: rgba(255,255,255,.9); font-size: .52rem; font-weight: 900; letter-spacing: .13em; }
-    .cover-label { position: absolute; right: 12px; bottom: 11px; left: 12px; z-index: 2; color: #fff; font-size: .94rem; font-weight: 900; line-height: 1.08; text-shadow: 0 2px 8px rgba(0,0,0,.85); }
-    .games[data-view="list"] .cover-brand, .games[data-view="list"] .cover-label { display: none; }
+    .games[data-view="list"] .cover-brand { display: none; }
     .ph-cover {
       width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
       font-size: 2.4rem; font-weight: 800; color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.4);
