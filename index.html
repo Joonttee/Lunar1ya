@@ -192,13 +192,16 @@
     .games[data-view="list"] .cover { aspect-ratio: auto; width: 64px; height: 64px; flex-shrink: 0; border-radius: 10px; }
     .cover-img { width: 100%; height: 100%; object-fit: cover; }
     .cover-title {
-      position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 1;
-      color: #fff; font-size: clamp(.9rem, 2vw, 1.14rem); font-weight: 900;
-      line-height: 1.05; letter-spacing: .02em; text-transform: uppercase;
-      text-shadow: 0 2px 4px #000, 0 0 16px rgba(0,0,0,.8);
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,.5));
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+      display: block; padding: 42px 12px 14px;
+      color: #fff; font-size: clamp(.86rem, 2vw, 1.12rem); font-weight: 900;
+      line-height: 1.08; letter-spacing: .02em; text-transform: uppercase;
+      text-shadow: 0 2px 4px #000, 0 0 16px rgba(0,0,0,.9);
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.78) 45%, rgba(0,0,0,.94) 100%);
+      pointer-events: none;
     }
     .cover-title::after { content: ""; display: block; width: 38px; height: 3px; margin-top: 8px; border-radius: 99px; background: var(--accent-2); box-shadow: 0 0 12px currentColor; }
+    .cover .badge { z-index: 4; }
     .cover--valorant .cover-title { font-style: italic; letter-spacing: .08em; }
     .cover--hollow .cover-title, .cover--nightmares .cover-title { font-family: Georgia, serif; letter-spacing: .03em; }
     .cover--cult .cover-title { color: #ffd1e9; }
