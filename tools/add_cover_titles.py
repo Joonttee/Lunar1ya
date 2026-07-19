@@ -29,9 +29,10 @@ for title, relative_path in entries:
 
     command = [
         "convert", str(source),
-        "-fill", "rgba(3,5,15,0.78)", "-draw", "rectangle 0,720 672,900",
+        "-fill", "rgba(3,5,15,0.72)", "-draw", "roundrectangle 28,18 644,177 12,12",
+        "-stroke", "rgba(220,240,255,0.7)", "-strokewidth", "2", "-fill", "none", "-draw", "roundrectangle 28,18 644,177 12,12",
         "-font", "DejaVu-Sans-Bold", "-fill", "white", "-stroke", "#03050f",
-        "-strokewidth", "1", "-gravity", "south", "-pointsize", "34",
+        "-strokewidth", "1", "-gravity", "north", "-pointsize", "34",
         "-annotate", "+0+34", label, "-strip", "-interlace", "Plane",
         "-quality", "84", str(target),
     ]

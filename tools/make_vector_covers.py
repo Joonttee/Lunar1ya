@@ -90,15 +90,15 @@ def svg_for(a, b, kind, accent, title):
     if current:
         lines.append(current)
     title_svg = "".join(
-        f'<text x="34" y="{790 + index * 35}" fill="#fff" font-family="system-ui,sans-serif" font-size="30" font-weight="900">{escape(line)}</text>'
+        f'<text x="34" y="{82 + index * 32}" fill="#fff" font-family="system-ui,sans-serif" font-size="28" font-weight="900">{escape(line)}</text>'
         for index, line in enumerate(lines[:3])
     )
     return f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 672 900" role="img" aria-label="Обложка игры Lunar1ya">
 <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{a}"/><stop offset="1" stop-color="{b}"/></linearGradient><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#050811" stop-opacity=".08"/><stop offset=".7" stop-color="#050811" stop-opacity=".08"/><stop offset="1" stop-color="#050811" stop-opacity=".88"/></linearGradient>{pattern}</defs>
 <rect width="672" height="900" fill="url(#bg)"/>{deco}<rect width="672" height="900" fill="url(#grain)"/>
-<image xlink:href="../character/lunar1ya-ferret-figure.webp" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet" opacity=".98"/>
+<image xlink:href="../character/lunar1ya-ferret-figure.webp" x="137" y="156" width="398" height="650" preserveAspectRatio="xMidYMax meet" opacity=".98"/>
 <rect width="672" height="900" fill="url(#shade)"/>
-<path d="M34 48H190" stroke="{accent}" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text><rect x="22" y="744" width="628" height="136" rx="12" fill="#050811" fill-opacity=".32"/>
+<rect x="22" y="18" width="628" height="142" rx="12" fill="#050811" fill-opacity=".58" stroke="#c5eaff" stroke-opacity=".72" stroke-width="2"/><path d="M34 38H190" stroke="{accent}" stroke-width="4"/><text x="34" y="61" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="61" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="11" letter-spacing="2">GAME LIBRARY</text>
 {title_svg}
 </svg>'''
 
