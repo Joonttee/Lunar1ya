@@ -1,0 +1,10 @@
+# Local scratch files
+.reference/
+assets/generated/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local server logs
+*.log

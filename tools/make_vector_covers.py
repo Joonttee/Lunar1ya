@@ -80,7 +80,7 @@ def svg_for(a, b, kind, accent):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 672 900" role="img" aria-label="Обложка игры Lunar1ya">
 <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="{a}"/><stop offset="1" stop-color="{b}"/></linearGradient><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#050811" stop-opacity=".08"/><stop offset=".7" stop-color="#050811" stop-opacity=".08"/><stop offset="1" stop-color="#050811" stop-opacity=".88"/></linearGradient>{pattern}</defs>
 <rect width="672" height="900" fill="url(#bg)"/>{deco}<rect width="672" height="900" fill="url(#grain)"/>
-<image xlink:href="../character/lunar1ya-catgirl-figure.png" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet" opacity=".98"/>
+<image xlink:href="../character/lunar1ya-catgirl-figure.webp" x="137" y="112" width="398" height="706" preserveAspectRatio="xMidYMax meet" opacity=".98"/>
 <rect width="672" height="900" fill="url(#shade)"/>
 <path d="M34 48H190" stroke="{accent}" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text>
 </svg>'''
