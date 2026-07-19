@@ -98,6 +98,45 @@
 
     .section { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 20px clamp(16px, 4vw, 48px) 60px; }
 
+    .library-layout {
+      position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto;
+      padding: 20px clamp(16px, 4vw, 48px) 60px;
+      display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 24px; align-items: start;
+    }
+    .sidebar { position: sticky; top: 82px; display: grid; gap: 16px; }
+    .profile-card, .progress-card {
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 16px;
+      background: rgba(13, 19, 43, 0.8); box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+    }
+    .profile-card { text-align: center; background: linear-gradient(135deg, rgba(124, 92, 255, .18), rgba(77, 159, 255, .1)); }
+    .avatar-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 12px; }
+    .profile-avatar, .avatar-fallback {
+      position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 22px;
+    }
+    .avatar-fallback { display: grid; place-items: center; background: linear-gradient(135deg, #5943b4, #226ca8); color: #fff; font-size: 3rem; border: 2px solid var(--accent-2); }
+    .profile-avatar { z-index: 1; object-fit: cover; object-position: center 32%; border: 2px solid var(--accent-2); box-shadow: 0 8px 22px rgba(77,159,255,.32); }
+    .profile-name { font-size: 1.05rem; font-weight: 800; }
+    .profile-role { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+    .profile-status { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 3px 10px; border: 1px solid rgba(255, 90, 90, .4); border-radius: 999px; color: #ff7777; background: rgba(255, 70, 70, .12); font-size: .72rem; font-weight: 700; }
+    .profile-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 15px; }
+    .social-link { display: flex; justify-content: center; align-items: center; gap: 6px; padding: 7px 8px; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: .74rem; font-weight: 700; transition: transform .2s, filter .2s; }
+    .social-link:hover { transform: translateY(-2px); filter: brightness(1.22); }
+    .social-icon { width: 14px; height: 14px; object-fit: contain; }
+    .social-link.twitch { color: #c9a6ff; border-color: rgba(145,70,255,.5); background: rgba(145,70,255,.13); }
+    .social-link.telegram { color: #49b7ed; border-color: rgba(42,171,238,.32); background: rgba(42,171,238,.1); }
+    .social-link.youtube { color: #ff6262; border-color: rgba(255,0,0,.3); background: rgba(255,0,0,.09); }
+    .social-link.tiktok { color: #7ee6e5; border-color: rgba(110,230,225,.28); background: rgba(110,230,225,.08); }
+    .social-link.instagram { color: #ff8fc4; border-color: rgba(255,80,160,.3); background: rgba(255,80,160,.09); }
+    .social-link.donate { color: #ffbd62; border-color: rgba(255,180,80,.38); background: rgba(255,180,80,.1); }
+    .progress-title, .genre-title { color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .progress-line, .progress-label { display: flex; align-items: center; justify-content: space-between; }
+    .progress-label { margin-top: 14px; font-size: .8rem; font-weight: 700; }.progress-value { color: #62f4af; font-variant-numeric: tabular-nums; }
+    .progress-track { height: 8px; margin: 10px 0 16px; overflow: hidden; border: 1px solid var(--border); border-radius: 999px; background: rgba(5,6,15,.55); }.progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #62f4af); transition: width .35s ease; }
+    .sidebar-stat { color: var(--muted); font-size: .82rem; }.sidebar-stat + .sidebar-stat { margin-top: 10px; }.sidebar-stat strong { color: var(--accent-2); float: right; font-size: .95rem; }
+    .genre-title { margin-top: 22px; }.genre-list { display: grid; gap: 8px; margin-top: 12px; }.genre-row { font-size: .72rem; }.genre-row-head { display: flex; justify-content: space-between; color: var(--muted); }.genre-row-head b { color: var(--text); }.genre-bar { height: 4px; margin-top: 4px; overflow: hidden; border-radius: 4px; background: rgba(255,255,255,.08); }.genre-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent-2); }
+    .library-content { padding: 0; max-width: none; width: 100%; }
+
     .status-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
     .sbtn {
       padding: 9px 16px; border-radius: 999px; cursor: pointer;
@@ -157,7 +196,7 @@
       font-size: 2.4rem; font-weight: 800; color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
     .badge {
-      position: absolute; top: 8px; left: 8px; font-size: 0.7rem; font-weight: 700;
+      position: absolute; top: 8px; left: 8px; z-index: 2; font-size: 0.7rem; font-weight: 700;
       padding: 4px 9px; border-radius: 999px; backdrop-filter: blur(4px);
       background: rgba(0,0,0,0.55); color: #fff;
     }
@@ -180,7 +219,13 @@
 
     .site-footer { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
 
+    @media (max-width: 860px) {
+      .library-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    }
     @media (max-width: 640px) {
+      .library-layout { padding: 16px; gap: 16px; }.sidebar { grid-template-columns: 1fr; gap: 12px; }
+      .profile-card { padding: 16px; }.social-grid { grid-template-columns: repeat(3, 1fr); }.social-link.wide { grid-column: auto; }
       .view-toggle { margin-left: 0; width: 100%; }
       .vbtn { flex: 1; }
       .controls { gap: 10px; }
@@ -217,15 +262,44 @@
     </div>
   </section>
 
-  <main class="section" id="library">
+  <div class="library-layout" id="library">
+    <aside class="sidebar" aria-label="Профиль и статистика">
+      <section class="profile-card">
+        <div class="avatar-wrap">
+          <div class="avatar-fallback" aria-hidden="true">☾</div>
+          <img class="profile-avatar" src="https://files.donationalerts.com/uploads/filemanager2/13416548/xDaRtMphGBHcr1Xsa4W6bWw1LngA2zqyjNNkLCcq.png" alt="Аватар Lunar1ya" onerror="this.remove()" />
+        </div>
+        <p class="profile-name">Lunar1ya</p>
+        <p class="profile-role">Игрок &amp; контент-мейкер</p>
+        <span class="profile-status">Оффлайн</span>
+        <nav class="social-grid" aria-label="Ссылки Lunar1ya">
+          <a class="social-link twitch" href="https://www.twitch.tv/lunar1ya" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/twitch/C9A6FF" alt="" />Twitch</a>
+          <a class="social-link telegram" href="https://t.me/Lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/telegram/49B7ED" alt="" />Telegram</a>
+          <a class="social-link youtube" href="https://www.youtube.com/@Lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/youtube/FF6262" alt="" />YouTube</a>
+          <a class="social-link tiktok" href="https://www.tiktok.com/@lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/tiktok/7EE6E5" alt="" />TikTok</a>
+          <a class="social-link instagram" href="https://www.instagram.com/lunar1ya_live/" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/instagram/FF8FC4" alt="" />Instagram</a>
+          <a class="social-link donate" href="https://www.donationalerts.com/r/lunar1ya" target="_blank" rel="noopener noreferrer">♡ Поддержать</a>
+        </nav>
+      </section>
+      <section class="progress-card" aria-labelledby="progressTitle">
+        <h2 class="progress-title" id="progressTitle">Прогресс коллекции</h2>
+        <div class="progress-label"><span>Пройдено</span><span class="progress-value" id="progressPercent">0.0%</span></div>
+        <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+        <p class="sidebar-stat">Всего в каталоге <strong id="sidebarTotal">0</strong></p>
+        <p class="sidebar-stat">Найдено по фильтрам <strong id="sidebarFiltered">0</strong></p>
+        <h3 class="genre-title">Топ жанров</h3>
+        <div class="genre-list" id="genreList"></div>
+      </section>
+    </aside>
+    <main class="section library-content">
     <div class="status-bar" id="statusBar" role="tablist" aria-label="Статус">
-      <button class="sbtn is-active" data-status="all">🎮 Все игры</button>
-      <button class="sbtn" data-status="playing">⏳ В процессе</button>
-      <button class="sbtn" data-status="done">✅ Пройдены</button>
-      <button class="sbtn" data-status="planned">📌 В планах</button>
-      <button class="sbtn" data-status="new">🆕 Не начато</button>
-      <button class="sbtn" data-status="mp">🕹️ MP</button>
-      <button class="sbtn" data-status="coop">🤝 Coop</button>
+      <button type="button" class="sbtn is-active" data-status="all">🎮 Все игры</button>
+      <button type="button" class="sbtn" data-status="playing">⏳ В процессе</button>
+      <button type="button" class="sbtn" data-status="done">✅ Пройдены</button>
+      <button type="button" class="sbtn" data-status="planned">📌 В планах</button>
+      <button type="button" class="sbtn" data-status="new">🆕 Не начато</button>
+      <button type="button" class="sbtn" data-status="mp">🕹️ MP</button>
+      <button type="button" class="sbtn" data-status="coop">🤝 Coop</button>
     </div>
 
     <div class="controls">
@@ -256,11 +330,11 @@
         </select>
       </label>
 
-      <button class="reset" id="reset">✕ Сбросить</button>
+      <button type="button" class="reset" id="reset">✕ Сбросить</button>
 
       <div class="view-toggle" role="group" aria-label="Вид">
-        <button class="vbtn is-active" data-view="grid" aria-label="Сетка">▦ Сетка</button>
-        <button class="vbtn" data-view="list" aria-label="Список">☰ Список</button>
+        <button type="button" class="vbtn is-active" data-view="grid" aria-label="Сетка">▦ Сетка</button>
+        <button type="button" class="vbtn" data-view="list" aria-label="Список">☰ Список</button>
       </div>
     </div>
 
@@ -269,7 +343,8 @@
     <div class="games" id="games" data-view="grid"></div>
 
     <p class="empty" id="empty" hidden>Ничего не найдено. Попробуйте изменить фильтры.</p>
-  </main>
+    </main>
+  </div>
 
   <footer class="site-footer">
     <p>© <span id="year"></span> Lunar1ya · Библиотека игр</p>
@@ -284,17 +359,17 @@
     const GAMES = [
       // Импорт из публичного профиля Rankone: https://www.rankone.global/lunahoomalu
       // Взяты видимые игры (избранное + показанные отзывы). Жанры/статусы — лучшая догадка, правьте под себя.
-      { title: "Constance",                genre: "Инди",               year: 2025, status: "done",     tags: [] },
-      { title: "Grime II",                 genre: "Экшены",             year: 2026, status: "done",     tags: [] },
-      { title: "RV There Yet?",            genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"] },
-      { title: "Peak",                     genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"] },
-      { title: "Valorant",                 genre: "Экшены",             year: 2020, status: "playing",  tags: ["mp"] },
-      { title: "Hollow Knight",            genre: "Приключения",        year: 2017, status: "done",     tags: [] },
-      { title: "Hollow Knight: Silksong",  genre: "Приключения",        year: 2025, status: "done",     tags: [] },
-      { title: "Replaced",                 genre: "Экшены",             year: 2023, status: "done",     tags: [] },
+      { title: "Constance",                genre: "Инди",               year: 2025, status: "done",     tags: []},
+      { title: "Grime II",                 genre: "Экшены",             year: 2026, status: "done",     tags: []},
+      { title: "RV There Yet?",            genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"]},
+      { title: "Peak",                     genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"]},
+      { title: "Valorant",                 genre: "Экшены",             year: 2020, status: "playing",  tags: ["mp"]},
+      { title: "Hollow Knight",            genre: "Приключения",        year: 2017, status: "done",     tags: []},
+      { title: "Hollow Knight: Silksong",  genre: "Приключения",        year: 2025, status: "done",     tags: []},
+      { title: "Replaced",                 genre: "Экшены",             year: 2023, status: "done",     tags: []},
       // В планах (добавлено вручную):
-      { title: "Little Misfortune",         genre: "Приключения",        year: 2019, status: "planned",  tags: [] },
-      { title: "Bendy and the Ink Factory", genre: "Экшены",             year: 2026, status: "planned",  tags: [] }, // Steam: TBA / coming soon
+      { title: "Little Misfortune",         genre: "Приключения",        year: 2019, status: "planned",  tags: []},
+      { title: "Bendy and the Ink Factory", genre: "Экшены",             year: 2026, status: "planned",  tags: []}, // Steam: TBA / coming soon
       { title: "Cult of the Lamb",          genre: "Экшены",             year: 2022, status: "planned",  tags: [] },
       { title: "Portal 2",                  genre: "Головоломки",        year: 2011, status: "planned",  tags: [] },
       { title: "Split Fiction",             genre: "Приключения",        year: 2025, status: "planned",  tags: ["coop"] },
@@ -423,6 +498,24 @@
       return list;
     }
 
+    function renderSidebarStats(list) {
+      const completed = GAMES.filter((g) => g.status === "done").length;
+      const percent = GAMES.length ? (completed / GAMES.length) * 100 : 0;
+      $("#progressPercent").textContent = `${percent.toFixed(1)}%`;
+      $("#progressFill").style.width = `${percent}%`;
+      $("#sidebarTotal").textContent = GAMES.length;
+      $("#sidebarFiltered").textContent = list.length;
+
+      const genres = Object.entries(GAMES.reduce((counts, game) => {
+        counts[game.genre] = (counts[game.genre] || 0) + 1;
+        return counts;
+      }, {})).sort((a, b) => b[1] - a[1]).slice(0, 3);
+      $("#genreList").innerHTML = genres.map(([genre, count]) => {
+        const share = (count / GAMES.length) * 100;
+        return `<div class="genre-row"><div class="genre-row-head"><b>${genre}</b><span>${share.toFixed(0)}% (${count})</span></div><div class="genre-bar"><i style="width:${share}%"></i></div></div>`;
+      }).join("");
+    }
+
     function render() {
       const list = getFiltered();
       gamesEl.dataset.view = state.view;
@@ -430,6 +523,7 @@
       emptyEl.hidden = list.length !== 0;
       const word = list.length === 1 ? "игра" : (list.length < 5 ? "игры" : "игр");
       resultCountEl.textContent = `Показано: ${list.length} ${word}`;
+      renderSidebarStats(list);
     }
 
     function bindEvents() {
@@ -474,6 +568,6 @@
     bindEvents();
     render();
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1d5e0ff6c1de95c',t:'MTc4NDQyMzc2Ng=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+
 </body>
 </html>
