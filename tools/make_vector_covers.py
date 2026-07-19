@@ -85,7 +85,17 @@ def svg_for(a, b, kind, accent):
 <path d="M34 48H190" stroke="{accent}" stroke-width="4"/><text x="34" y="82" fill="#fff" font-family="system-ui,sans-serif" font-size="18" font-weight="700" letter-spacing="4">LUNAR1YA</text><text x="638" y="82" text-anchor="end" fill="#fff" opacity=".72" font-family="system-ui,sans-serif" font-size="13" letter-spacing="2">GAME LIBRARY</text>
 </svg>'''
 
+# These titles use bespoke raster illustrations generated with the character
+# reference. Keep them out of the SVG fallback set when regenerating.
+BESPOKE_RASTER = {
+    "cult-of-the-lamb", "portal-2", "little-nightmares-ii", "stardew-valley",
+    "the-last-of-us-part-i", "outlast", "metro-last-light-redux", "stray",
+    "resident-evil-requiem", "it-takes-two",
+}
+
 for slug, (a, b, kind, accent) in THEMES.items():
+    if slug in BESPOKE_RASTER:
+        continue
     (OUT / f"{slug}.svg").write_text(svg_for(a, b, kind, accent), encoding="utf-8")
 
-print(f"wrote {len(THEMES)} SVG covers to {OUT}")
+print(f"wrote {len(THEMES) - len(BESPOKE_RASTER)} SVG covers to {OUT}")

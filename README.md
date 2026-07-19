@@ -12,7 +12,7 @@
 ├── js/app.js                   # фильтры, сортировка, карточки и статистика
 ├── assets/
 │   ├── character/              # персонаж Lunar1ya в WebP
-│   └── covers/                 # обложки игр: JPG и SVG
+│   └── covers/                 # обложки игр: JPG (сюжетные) и SVG (тематические)
 └── tools/make_vector_covers.py # генератор тематических SVG-обложек
 ```
 
