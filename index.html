@@ -191,6 +191,21 @@
     .cover { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
     .games[data-view="list"] .cover { aspect-ratio: auto; width: 64px; height: 64px; flex-shrink: 0; border-radius: 10px; }
     .cover-img { width: 100%; height: 100%; object-fit: cover; }
+    .cover-title {
+      position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 1;
+      color: #fff; font-size: clamp(.9rem, 2vw, 1.14rem); font-weight: 900;
+      line-height: 1.05; letter-spacing: .02em; text-transform: uppercase;
+      text-shadow: 0 2px 4px #000, 0 0 16px rgba(0,0,0,.8);
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,.5));
+    }
+    .cover-title::after { content: ""; display: block; width: 38px; height: 3px; margin-top: 8px; border-radius: 99px; background: var(--accent-2); box-shadow: 0 0 12px currentColor; }
+    .cover--valorant .cover-title { font-style: italic; letter-spacing: .08em; }
+    .cover--hollow .cover-title, .cover--nightmares .cover-title { font-family: Georgia, serif; letter-spacing: .03em; }
+    .cover--cult .cover-title { color: #ffd1e9; }
+    .cover--metro .cover-title { font-family: Impact, sans-serif; letter-spacing: .07em; }
+    .cover--resident .cover-title { color: #ffd5d5; letter-spacing: .06em; }
+    .cover--mafia .cover-title { font-family: Georgia, serif; font-style: italic; color: #ffe2b5; }
+    .cover--stardew .cover-title { color: #fff0a8; text-shadow: 2px 2px #563c86; }
     .ph-cover {
       width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
       font-size: 2.4rem; font-weight: 800; color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.4);
@@ -267,7 +282,7 @@
       <section class="profile-card">
         <div class="avatar-wrap">
           <div class="avatar-fallback" aria-hidden="true">☾</div>
-          <img class="profile-avatar" src="https://files.donationalerts.com/uploads/filemanager2/13416548/xDaRtMphGBHcr1Xsa4W6bWw1LngA2zqyjNNkLCcq.png" alt="Аватар Lunar1ya" onerror="this.remove()" />
+          <img class="profile-avatar" src="assets/avatar.png" alt="Аватар Lunar1ya" onerror="this.remove()" />
         </div>
         <p class="profile-name">Lunar1ya</p>
         <p class="profile-role">Игрок &amp; контент-мейкер</p>
@@ -444,15 +459,39 @@
       img.remove();
     }
 
+    const COVER_ART = {
+      void: "assets/covers/void-constance.png",
+      valorant: "assets/covers/valorant.png",
+      hollow: "assets/covers/hollow-knight.png",
+      nightmares: "assets/covers/little-nightmares.png",
+      cult: "assets/covers/cult-of-the-lamb.png",
+      metro: "assets/covers/metro.png",
+      resident: "assets/covers/resident-evil.png",
+      mafia: "assets/covers/mafia.png",
+      stardew: "assets/covers/stardew.png"
+    };
+    function coverKey(game) {
+      const t = game.title.toLowerCase();
+      if (t.includes("valorant")) return "valorant";
+      if (t.includes("hollow knight")) return "hollow";
+      if (t.includes("nightmare")) return "nightmares";
+      if (t.includes("cult of the lamb")) return "cult";
+      if (t.includes("metro")) return "metro";
+      if (t.includes("resident evil")) return "resident";
+      if (t.includes("mafia")) return "mafia";
+      if (t.includes("stardew")) return "stardew";
+      return "void";
+    }
     function gameCard(game) {
       const st = STATUS_META[game.status] || STATUS_META.new;
       const tags = (game.tags || []).map((t) => `<span class="g-tag">${TAG_META[t] || t}</span>`).join("");
+      const key = coverKey(game);
       const cover = game.cover
         ? `<img class="cover-img" src="${game.cover}" alt="${game.title}" data-title="${game.title}" loading="lazy" onerror="coverFallback(this)">`
-        : placeholderCover(game.title);
+        : `<img class="cover-img" src="${COVER_ART[key]}" alt="${game.title}" loading="lazy">`;
       return `
         <article class="game" data-title="${game.title.toLowerCase()}">
-          <div class="cover">${cover}<span class="badge ${st.cls}">${st.label}</span></div>
+          <div class="cover cover--${key}">${cover}<span class="cover-title">${game.title}</span><span class="badge ${st.cls}">${st.label}</span></div>
           <div class="info">
             <h3 class="g-title">${game.title}</h3>
             <div class="g-meta"><span>${game.genre}</span><span>${game.year}</span></div>
