@@ -1,0 +1,80 @@
+# Lunar1ya — Библиотека игр
+
+Персональный каталог игр с фильтрами по статусу, жанру и эпохе. Сделано для профиля [Lunar1ya](https://www.twitch.tv/lunar1ya).
+
+## 🎮 Особенности
+
+- **46 игр** с уникальными обложками в стиле каждой игры
+- **Фильтры**: статус (все/в процессе/пройдено/в планах/не начато/MP/Coop), жанр, эпоха
+- **Поиск** по названию с дебаунсом
+- **Сортировка**: по названию (А-Я/Я-А) и году (новые/старые)
+- **Два вида**: сетка и список
+- **Статистика**: прогресс коллекции, топ жанров, счётчики
+- **Адаптивный дизайн**: работает на мобильных и десктопе
+- **Оптимизированные изображения**: WebP (~40-50 KB каждая) с PNG fallback
+
+## 🖼️ Обложки
+
+Все 46 обложек сгенерированы с использованием аватара Lunar1ya (серебристые волосы, фиолетовые глаза) в нативном арт-стиле каждой игры:
+- Hand-drawn painterly (Constance, Hollow Knight)
+- Pixel art (Stardew Valley, Replaced, Scam Line)
+- Photorealistic / RE Engine (The Last of Us, Resident Evil, Metro)
+- Rubber hose 1930s animation (Bendy)
+- Doll-like horror (Little Nightmares)
+- Low-fi UI (Scam Line)
+- Storybook (Fran Bow, Creepy Tale, Moomintroll)
+- И многие другие...
+
+Оптимизированы через ImageMagick: **114 MB → 1.8 MB** (63× меньше).
+
+## 🚀 Запуск
+
+Просто откройте `index.html` в браузере — никаких серверов, сборок или зависимостей не требуется.
+
+```bash
+# Или через любой статический сервер
+npx serve .
+python -m http.server 8000
+```
+
+## 📁 Структура
+
+```
+├── index.html          # Основной файл (HTML + CSS + JS)
+├── covers/             # Оригинальные PNG (не в git)
+├── covers_webp/        # Оптимизированные WebP (~40-50 KB каждая)
+├── .gitignore
+└── README.md
+```
+
+## 🔧 Добавление игр
+
+Отредактируйте массив `GAMES` в `index.html`:
+
+```javascript
+const GAMES = [
+  {
+    title: "Название",
+    genre: "Жанр",
+    year: 2024,
+    status: "playing",     // new | playing | done | planned
+    tags: ["coop"],        // mp | coop (опционально)
+    cover: "covers_webp/Name.webp",
+    coverFallback: "covers/Name.png"
+  },
+  // ...
+];
+```
+
+## 🌐 Деплой
+
+Работает на любом статическом хостинге:
+- GitHub Pages
+- Netlify
+- Vercel
+- Cloudflare Pages
+- Обычный веб-сервер (nginx, Apache)
+
+## 📄 Лицензия
+
+MIT — используйте как базу для своей библиотеки.

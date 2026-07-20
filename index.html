@@ -6,231 +6,130 @@
   <title>Lunar1ya — Библиотека игр</title>
   <meta name="description" content="Личная библиотека игр Lunar1ya: каталог с фильтрами по статусу, жанру и эпохе." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060f'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%237c5cff'/%3E%3C/svg%3E" type="image/svg+xml" />
+  <link rel="preload" as="image" href="https://raw.githubusercontent.com/Joonttee/Lunar1ya/main/avatar.png" />
   <style>
-    :root {
-      --bg: #05060f;
-      --bg-2: #0b0f24;
-      --surface: rgba(22, 27, 54, 0.6);
-      --surface-2: rgba(30, 36, 70, 0.75);
-      --text: #e8ecff;
-      --muted: #9aa3c7;
-      --accent: #7c5cff;
-      --accent-2: #4d9fff;
-      --border: rgba(124, 92, 255, 0.25);
-      --radius: 16px;
-      --maxw: 1200px;
+    :root{
+      --bg:#05060f;--bg-2:#0b0f24;--surface:rgba(22,27,54,.6);--surface-2:rgba(30,36,70,.75);
+      --text:#e8ecff;--muted:#9aa3c7;--accent:#7c5cff;--accent-2:#4d9fff;
+      --border:rgba(124,92,255,.25);--radius:16px;--maxw:1200px;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 70% -10%, #1b2a6e 0%, transparent 60%),
-                  radial-gradient(900px 700px at 10% 10%, #2a1d6e 0%, transparent 55%),
-                  linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.55;
-      overflow-x: hidden;
-      position: relative;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+      background:radial-gradient(1200px 800px at 70% -10%,#1b2a6e 0%,transparent 60%),
+                 radial-gradient(900px 700px at 10% 10%,#2a1d6e 0%,transparent 55%),
+                 linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);
+      color:var(--text);min-height:100vh;line-height:1.55;overflow-x:hidden;position:relative
     }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-
-    .stars {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
-        radial-gradient(1.5px 1.5px at 80% 20%, #cdd6ff, transparent),
-        radial-gradient(1px 1px at 50% 70%, #fff, transparent),
-        radial-gradient(1.5px 1.5px at 35% 85%, #fff, transparent),
-        radial-gradient(1px 1px at 65% 50%, #aab4ff, transparent),
-        radial-gradient(1.5px 1.5px at 90% 80%, #fff, transparent);
-      background-repeat: repeat; background-size: 600px 600px; opacity: 0.5;
-      animation: twinkle 6s ease-in-out infinite alternate;
-    }
-    @keyframes twinkle { from { opacity: 0.35; } to { opacity: 0.7; } }
-    .moon {
-      position: fixed; top: -120px; right: -100px; width: 360px; height: 360px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fdfbff 0%, #c9c6e8 45%, #6f6c9c 100%);
-      box-shadow: 0 0 120px 30px rgba(160,170,255,0.25), inset -30px -30px 60px rgba(0,0,0,0.35);
-      z-index: 0; pointer-events: none; opacity: 0.8;
-    }
-
-    .site-header {
-      position: sticky; top: 0; z-index: 10;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      padding: 14px clamp(16px, 4vw, 48px);
-      backdrop-filter: blur(12px); background: rgba(5,6,15,0.55);
-      border-bottom: 1px solid var(--border);
-    }
-    .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: 2px; }
-    .logo-mark {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff, #8a86c9 60%, #45427a);
-      box-shadow: 0 0 18px rgba(140,130,255,0.6);
-    }
-    .logo-text { font-size: 1.1rem; }
-    .accent { color: var(--accent-2); }
-    .nav a { color: var(--muted); font-weight: 600; }
-    .nav a:hover { color: var(--text); }
-
-    .hero {
-      position: relative; z-index: 1; text-align: center;
-      padding: clamp(60px, 10vw, 110px) clamp(16px, 4vw, 48px) clamp(30px, 6vw, 60px);
-      max-width: var(--maxw); margin: 0 auto;
-    }
-    .eyebrow { text-transform: uppercase; letter-spacing: 4px; font-size: 0.78rem; color: var(--accent-2); margin-bottom: 14px; }
-    .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 800; line-height: 1.1;
-      background: linear-gradient(120deg, #fff, #b8b2ff 60%, var(--accent-2));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .hero-sub { color: var(--muted); margin: 16px auto 0; max-width: 560px; }
-    .stats { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
-    .stat {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px 22px; min-width: 130px;
-    }
-    .stat-num { display: block; font-size: 1.9rem; font-weight: 800; color: var(--accent-2); }
-    .stat-label { color: var(--muted); font-size: 0.85rem; }
-
-    .section { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 20px clamp(16px, 4vw, 48px) 60px; }
-
-    .library-layout {
-      position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto;
-      padding: 20px clamp(16px, 4vw, 48px) 60px;
-      display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 24px; align-items: start;
-    }
-    .sidebar { position: sticky; top: 82px; display: grid; gap: 16px; }
-    .profile-card, .progress-card {
-      border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 16px;
-      background: rgba(13, 19, 43, 0.8); box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
-    }
-    .profile-card { text-align: center; background: linear-gradient(135deg, rgba(124, 92, 255, .18), rgba(77, 159, 255, .1)); }
-    .avatar-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 12px; }
-    .profile-avatar, .avatar-fallback {
-      position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 22px;
-    }
-    .avatar-fallback { display: grid; place-items: center; background: linear-gradient(135deg, #5943b4, #226ca8); color: #fff; font-size: 3rem; border: 2px solid var(--accent-2); }
-    .profile-avatar { z-index: 1; object-fit: cover; object-position: center 32%; border: 2px solid var(--accent-2); box-shadow: 0 8px 22px rgba(77,159,255,.32); }
-    .profile-name { font-size: 1.05rem; font-weight: 800; }
-    .profile-role { color: var(--muted); font-size: .78rem; margin-top: 2px; }
-    .profile-status { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 3px 10px; border: 1px solid rgba(255, 90, 90, .4); border-radius: 999px; color: #ff7777; background: rgba(255, 70, 70, .12); font-size: .72rem; font-weight: 700; }
-    .profile-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 15px; }
-    .social-link { display: flex; justify-content: center; align-items: center; gap: 6px; padding: 7px 8px; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: .74rem; font-weight: 700; transition: transform .2s, filter .2s; }
-    .social-link:hover { transform: translateY(-2px); filter: brightness(1.22); }
-    .social-icon { width: 14px; height: 14px; object-fit: contain; }
-    .social-link.twitch { color: #c9a6ff; border-color: rgba(145,70,255,.5); background: rgba(145,70,255,.13); }
-    .social-link.telegram { color: #49b7ed; border-color: rgba(42,171,238,.32); background: rgba(42,171,238,.1); }
-    .social-link.youtube { color: #ff6262; border-color: rgba(255,0,0,.3); background: rgba(255,0,0,.09); }
-    .social-link.tiktok { color: #7ee6e5; border-color: rgba(110,230,225,.28); background: rgba(110,230,225,.08); }
-    .social-link.instagram { color: #ff8fc4; border-color: rgba(255,80,160,.3); background: rgba(255,80,160,.09); }
-    .social-link.donate { color: #ffbd62; border-color: rgba(255,180,80,.38); background: rgba(255,180,80,.1); }
-    .progress-title, .genre-title { color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
-    .progress-line, .progress-label { display: flex; align-items: center; justify-content: space-between; }
-    .progress-label { margin-top: 14px; font-size: .8rem; font-weight: 700; }.progress-value { color: #62f4af; font-variant-numeric: tabular-nums; }
-    .progress-track { height: 8px; margin: 10px 0 16px; overflow: hidden; border: 1px solid var(--border); border-radius: 999px; background: rgba(5,6,15,.55); }.progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), #62f4af); transition: width .35s ease; }
-    .sidebar-stat { color: var(--muted); font-size: .82rem; }.sidebar-stat + .sidebar-stat { margin-top: 10px; }.sidebar-stat strong { color: var(--accent-2); float: right; font-size: .95rem; }
-    .genre-title { margin-top: 22px; }.genre-list { display: grid; gap: 8px; margin-top: 12px; }.genre-row { font-size: .72rem; }.genre-row-head { display: flex; justify-content: space-between; color: var(--muted); }.genre-row-head b { color: var(--text); }.genre-bar { height: 4px; margin-top: 4px; overflow: hidden; border-radius: 4px; background: rgba(255,255,255,.08); }.genre-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent-2); }
-    .library-content { padding: 0; max-width: none; width: 100%; }
-
-    .status-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
-    .sbtn {
-      padding: 9px 16px; border-radius: 999px; cursor: pointer;
-      border: 1px solid var(--border); background: var(--surface); color: var(--muted);
-      font-weight: 600; font-size: 0.9rem; transition: all .2s;
-    }
-    .sbtn:hover { color: var(--text); }
-    .sbtn.is-active { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #0b0f24; border-color: transparent; }
-
-    .controls {
-      display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px 16px; margin-bottom: 14px;
-    }
-    .search {
-      flex: 1 1 220px; min-width: 200px; padding: 11px 14px; border-radius: 12px;
-      border: 1px solid var(--border); background: rgba(5,6,15,0.5); color: var(--text); font-size: 0.95rem;
-    }
-    .search::placeholder { color: var(--muted); }
-    .select-wrap { display: flex; flex-direction: column; gap: 4px; }
-    .select-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-    select {
-      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
-      background: rgba(5,6,15,0.5); color: var(--text); font-size: 0.9rem; cursor: pointer; min-width: 160px;
-    }
-    .reset {
-      padding: 11px 16px; border-radius: 12px; border: 1px solid var(--border);
-      background: transparent; color: var(--muted); cursor: pointer; font-weight: 600; transition: all .2s;
-    }
-    .reset:hover { color: var(--text); background: var(--surface-2); }
-    .view-toggle { display: flex; gap: 6px; margin-left: auto; }
-    .vbtn {
-      padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
-      background: rgba(5,6,15,0.5); color: var(--muted); cursor: pointer; font-weight: 600; transition: all .2s;
-    }
-    .vbtn.is-active { background: var(--accent); color: #fff; border-color: transparent; }
-
-    .result-count { color: var(--muted); font-size: 0.88rem; margin: 4px 2px 16px; }
-
-    .games[data-view="grid"] {
-      display: grid; gap: 18px;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    }
-    .games[data-view="list"] { display: flex; flex-direction: column; gap: 10px; }
-
-    .game {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden; transition: transform .2s, box-shadow .2s, border-color .2s;
-    }
-    .game:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.45); border-color: rgba(124,92,255,0.5); }
-
-    .cover { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
-    .games[data-view="list"] .cover { aspect-ratio: auto; width: 64px; height: 64px; flex-shrink: 0; border-radius: 10px; }
-    .cover-img { width: 100%; height: 100%; object-fit: cover; }
-    .ph-cover {
-      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-      font-size: 2.4rem; font-weight: 800; color: rgba(255,255,255,0.85); text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
-    .badge {
-      position: absolute; top: 8px; left: 8px; z-index: 2; font-size: 0.7rem; font-weight: 700;
-      padding: 4px 9px; border-radius: 999px; backdrop-filter: blur(4px);
-      background: rgba(0,0,0,0.55); color: #fff;
-    }
-    .st-new     { background: rgba(120,130,200,0.85); }
-    .st-playing { background: rgba(54,224,208,0.9); color: #04201d; }
-    .st-done    { background: rgba(80,200,120,0.9); color: #04210f; }
-    .st-planned { background: rgba(255,180,80,0.9); color: #2a1800; }
-
-    .info { padding: 12px 14px 14px; }
-    .games[data-view="list"] .game { display: flex; align-items: center; gap: 14px; padding: 10px 14px; }
-    .games[data-view="list"] .info { padding: 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; }
-    .g-title { font-size: 0.98rem; font-weight: 700; line-height: 1.25; }
-    .games[data-view="list"] .g-title { flex: 1 1 200px; }
-    .g-meta { display: flex; gap: 10px; color: var(--muted); font-size: 0.82rem; margin-top: 4px; }
-    .g-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-    .games[data-view="list"] .g-tags { margin-top: 0; }
-    .g-tag { font-size: 0.7rem; color: var(--accent-2); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; }
-
-    .empty { text-align: center; color: var(--muted); padding: 50px 0; }
-
-    .site-footer { text-align: center; padding: 36px 16px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
-
-    @media (max-width: 860px) {
-      .library-layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    }
-    @media (max-width: 640px) {
-      .library-layout { padding: 16px; gap: 16px; }.sidebar { grid-template-columns: 1fr; gap: 12px; }
-      .profile-card { padding: 16px; }.social-grid { grid-template-columns: repeat(3, 1fr); }.social-link.wide { grid-column: auto; }
-      .view-toggle { margin-left: 0; width: 100%; }
-      .vbtn { flex: 1; }
-      .controls { gap: 10px; }
-      select { min-width: 0; flex: 1; }
-    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .stars{position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),
+        radial-gradient(1.5px 1.5px at 80% 20%,#cdd6ff,transparent),
+        radial-gradient(1px 1px at 50% 70%,#fff,transparent),
+        radial-gradient(1.5px 1.5px at 35% 85%,#fff,transparent),
+        radial-gradient(1px 1px at 65% 50%,#aab4ff,transparent),
+        radial-gradient(1.5px 1.5px at 90% 80%,#fff,transparent);
+      background-repeat:repeat;background-size:600px 600px;opacity:.5;
+      animation:twinkle 6s ease-in-out infinite alternate}
+    @keyframes twinkle{from{opacity:.35}to{opacity:.7}}
+    .moon{position:fixed;top:-120px;right:-100px;width:360px;height:360px;border-radius:50%;
+      background:radial-gradient(circle at 35% 35%,#fdfbff 0%,#c9c6e8 45%,#6f6c9c 100%);
+      box-shadow:0 0 120px 30px rgba(160,170,255,.25),inset -30px -30px 60px rgba(0,0,0,.35);
+      z-index:0;pointer-events:none;opacity:.8}
+    .site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding:14px clamp(16px,4vw,48px);backdrop-filter:blur(12px);background:rgba(5,6,15,.55);
+      border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:2px}
+    .logo-mark{width:28px;height:28px;border-radius:50%;
+      background:radial-gradient(circle at 35% 35%,#fff,#8a86c9 60%,#45427a);
+      box-shadow:0 0 18px rgba(140,130,255,.6)}
+    .logo-text{font-size:1.1rem}.accent{color:var(--accent-2)}
+    .nav a{color:var(--muted);font-weight:600}.nav a:hover{color:var(--text)}
+    .hero{position:relative;z-index:1;text-align:center;
+      padding:clamp(60px,10vw,110px) clamp(16px,4vw,48px) clamp(30px,6vw,60px);
+      max-width:var(--maxw);margin:0 auto}
+    .eyebrow{text-transform:uppercase;letter-spacing:4px;font-size:.78rem;color:var(--accent-2);margin-bottom:14px}
+    .hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;line-height:1.1;
+      background:linear-gradient(120deg,#fff,#b8b2ff 60%,var(--accent-2));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-sub{color:var(--muted);margin:16px auto 0;max-width:560px}
+    .stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;min-width:130px}
+    .stat-num{display:block;font-size:1.9rem;font-weight:800;color:var(--accent-2)}
+    .stat-label{color:var(--muted);font-size:.85rem}
+    .library-layout{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;
+      padding:20px clamp(16px,4vw,48px) 60px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+    .sidebar{position:sticky;top:82px;display:grid;gap:16px}
+    .profile-card,.progress-card{border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;
+      background:rgba(13,19,43,.8);box-shadow:0 12px 30px rgba(0,0,0,.18)}
+    .profile-card{text-align:center;background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(77,159,255,.1))}
+    .avatar-wrap{position:relative;width:96px;height:96px;margin:0 auto 12px}
+    .profile-avatar,.avatar-fallback{position:absolute;inset:0;width:100%;height:100%;border-radius:22px}
+    .avatar-fallback{display:grid;place-items:center;background:linear-gradient(135deg,#5943b4,#226ca8);color:#fff;font-size:3rem;border:2px solid var(--accent-2)}
+    .profile-avatar{z-index:1;object-fit:cover;object-position:center 32%;border:2px solid var(--accent-2);box-shadow:0 8px 22px rgba(77,159,255,.32)}
+    .profile-name{font-size:1.05rem;font-weight:800}.profile-role{color:var(--muted);font-size:.78rem;margin-top:2px}
+    .profile-status{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:3px 10px;border:1px solid rgba(255,90,90,.4);border-radius:999px;color:#ff7777;background:rgba(255,70,70,.12);font-size:.72rem;font-weight:700}
+    .profile-status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+    .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px}
+    .social-link{display:flex;justify-content:center;align-items:center;gap:6px;padding:7px 8px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:.74rem;font-weight:700;transition:transform .2s,filter .2s}
+    .social-link:hover{transform:translateY(-2px);filter:brightness(1.22)}
+    .social-icon{width:14px;height:14px;object-fit:contain}
+    .social-link.twitch{color:#c9a6ff;border-color:rgba(145,70,255,.5);background:rgba(145,70,255,.13)}
+    .social-link.telegram{color:#49b7ed;border-color:rgba(42,171,238,.32);background:rgba(42,171,238,.1)}
+    .social-link.youtube{color:#ff6262;border-color:rgba(255,0,0,.3);background:rgba(255,0,0,.09)}
+    .social-link.tiktok{color:#7ee6e5;border-color:rgba(110,230,225,.28);background:rgba(110,230,225,.08)}
+    .social-link.instagram{color:#ff8fc4;border-color:rgba(255,80,160,.3);background:rgba(255,80,160,.09)}
+    .social-link.donate{color:#ffbd62;border-color:rgba(255,180,80,.38);background:rgba(255,180,80,.1)}
+    .progress-title,.genre-title{color:var(--muted);font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+    .progress-label{display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:.8rem;font-weight:700}
+    .progress-value{color:#62f4af;font-variant-numeric:tabular-nums}
+    .progress-track{height:8px;margin:10px 0 16px;overflow:hidden;border:1px solid var(--border);border-radius:999px;background:rgba(5,6,15,.55)}
+    .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#62f4af);transition:width .35s ease}
+    .sidebar-stat{color:var(--muted);font-size:.82rem}.sidebar-stat+.sidebar-stat{margin-top:10px}.sidebar-stat strong{color:var(--accent-2);float:right;font-size:.95rem}
+    .genre-title{margin-top:22px}.genre-list{display:grid;gap:8px;margin-top:12px}.genre-row{font-size:.72rem}
+    .genre-row-head{display:flex;justify-content:space-between;color:var(--muted)}.genre-row-head b{color:var(--text)}
+    .genre-bar{height:4px;margin-top:4px;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.08)}
+    .genre-bar i{display:block;height:100%;border-radius:inherit;background:var(--accent-2)}
+    .library-content{padding:0;max-width:none;width:100%}
+    .status-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .sbtn{padding:9px 16px;border-radius:999px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-weight:600;font-size:.9rem;transition:all .2s}
+    .sbtn:hover{color:var(--text)}.sbtn.is-active{background:linear-gradient(120deg,var(--accent),var(--accent-2));color:#0b0f24;border-color:transparent}
+    .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+    .search{flex:1 1 220px;min-width:200px;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--text);font-size:.95rem}
+    .search::placeholder{color:var(--muted)}
+    .select-wrap{display:flex;flex-direction:column;gap:4px}
+    .select-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+    select{padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--text);font-size:.9rem;cursor:pointer;min-width:160px}
+    .reset{padding:11px 16px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-weight:600;transition:all .2s}
+    .reset:hover{color:var(--text);background:var(--surface-2)}
+    .view-toggle{display:flex;gap:6px;margin-left:auto}
+    .vbtn{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--muted);cursor:pointer;font-weight:600;transition:all .2s}
+    .vbtn.is-active{background:var(--accent);color:#fff;border-color:transparent}
+    .result-count{color:var(--muted);font-size:.88rem;margin:4px 2px 16px}
+    .games[data-view="grid"]{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+    .games[data-view="list"]{display:flex;flex-direction:column;gap:10px}
+    .game{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}
+    .game:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.45);border-color:rgba(124,92,255,.5)}
+    .cover{position:relative;aspect-ratio:3/4;overflow:hidden}
+    .games[data-view="list"] .cover{aspect-ratio:auto;width:64px;height:64px;flex-shrink:0;border-radius:10px}
+    .cover-img{width:100%;height:100%;object-fit:cover}
+    .ph-cover{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:800;color:rgba(255,255,255,.85);text-shadow:0 2px 8px rgba(0,0,0,.4)}
+    .badge{position:absolute;top:8px;left:8px;z-index:2;font-size:.7rem;font-weight:700;padding:4px 9px;border-radius:999px;backdrop-filter:blur(4px);background:rgba(0,0,0,.55);color:#fff}
+    .st-new{background:rgba(120,130,200,.85)}.st-playing{background:rgba(54,224,208,.9);color:#04201d}
+    .st-done{background:rgba(80,200,120,.9);color:#04210f}.st-planned{background:rgba(255,180,80,.9);color:#2a1800}
+    .info{padding:12px 14px 14px}
+    .games[data-view="list"] .game{display:flex;align-items:center;gap:14px;padding:10px 14px}
+    .games[data-view="list"] .info{padding:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:1}
+    .g-title{font-size:.98rem;font-weight:700;line-height:1.25}.games[data-view="list"] .g-title{flex:1 1 200px}
+    .g-meta{display:flex;gap:10px;color:var(--muted);font-size:.82rem;margin-top:4px}
+    .g-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.games[data-view="list"] .g-tags{margin-top:0}
+    .g-tag{font-size:.7rem;color:var(--accent-2);border:1px solid var(--border);padding:2px 8px;border-radius:999px}
+    .empty{text-align:center;color:var(--muted);padding:50px 0}
+    .site-footer{text-align:center;padding:36px 16px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border);position:relative;z-index:1}
+    @media (max-width:860px){.library-layout{grid-template-columns:1fr}.sidebar{position:static;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+    @media (max-width:640px){.library-layout{padding:16px;gap:16px}.sidebar{grid-template-columns:1fr;gap:12px}.profile-card{padding:16px}.social-grid{grid-template-columns:repeat(3,1fr)}.social-link.wide{grid-column:auto}.view-toggle{margin-left:0;width:100%}.vbtn{flex:1}.controls{gap:10px}select{min-width:0;flex:1}}
   </style>
 </head>
 <body>
@@ -238,13 +137,8 @@
   <div class="moon" aria-hidden="true"></div>
 
   <header class="site-header">
-    <a class="logo" href="#top">
-      <span class="logo-mark" aria-hidden="true"></span>
-      <span class="logo-text">LUNAR<span class="accent">1</span>YA</span>
-    </a>
-    <nav class="nav" aria-label="Меню">
-      <a href="#library">Библиотека</a>
-    </nav>
+    <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">LUNAR<span class="accent">1</span>YA</span></a>
+    <nav class="nav" aria-label="Меню"><a href="#library">Библиотека</a></nav>
   </header>
 
   <section class="hero" id="top">
@@ -252,7 +146,6 @@
       <p class="eyebrow">Личная коллекция</p>
       <h1>Библиотека игр</h1>
       <p class="hero-sub">Каталог игр с фильтрами по статусу, жанру и эпохе. Всё под рукой.</p>
-
       <div class="stats" id="stats">
         <div class="stat"><span class="stat-num" data-stat="total">0</span><span class="stat-label">🎮 Всего игр</span></div>
         <div class="stat"><span class="stat-num" data-stat="playing">0</span><span class="stat-label">⏳ В процессе</span></div>
@@ -267,17 +160,17 @@
       <section class="profile-card">
         <div class="avatar-wrap">
           <div class="avatar-fallback" aria-hidden="true">☾</div>
-          <img class="profile-avatar" src="https://files.donationalerts.com/uploads/filemanager2/13416548/xDaRtMphGBHcr1Xsa4W6bWw1LngA2zqyjNNkLCcq.png" alt="Аватар Lunar1ya" onerror="this.remove()" />
+          <img class="profile-avatar" src="https://raw.githubusercontent.com/Joonttee/Lunar1ya/main/avatar.png" alt="Аватар Lunar1ya" onerror="this.remove()" loading="lazy" />
         </div>
         <p class="profile-name">Lunar1ya</p>
         <p class="profile-role">Игрок &amp; контент-мейкер</p>
         <span class="profile-status">Оффлайн</span>
         <nav class="social-grid" aria-label="Ссылки Lunar1ya">
-          <a class="social-link twitch" href="https://www.twitch.tv/lunar1ya" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/twitch/C9A6FF" alt="" />Twitch</a>
-          <a class="social-link telegram" href="https://t.me/Lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/telegram/49B7ED" alt="" />Telegram</a>
-          <a class="social-link youtube" href="https://www.youtube.com/@Lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/youtube/FF6262" alt="" />YouTube</a>
-          <a class="social-link tiktok" href="https://www.tiktok.com/@lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/tiktok/7EE6E5" alt="" />TikTok</a>
-          <a class="social-link instagram" href="https://www.instagram.com/lunar1ya_live/" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/instagram/FF8FC4" alt="" />Instagram</a>
+          <a class="social-link twitch" href="https://www.twitch.tv/lunar1ya" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/twitch/C9A6FF" alt="" loading="lazy" />Twitch</a>
+          <a class="social-link telegram" href="https://t.me/Lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/telegram/49B7ED" alt="" loading="lazy" />Telegram</a>
+          <a class="social-link youtube" href="https://www.youtube.com/@Lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/youtube/FF6262" alt="" loading="lazy" />YouTube</a>
+          <a class="social-link tiktok" href="https://www.tiktok.com/@lunar1ya_live" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/tiktok/7EE6E5" alt="" loading="lazy" />TikTok</a>
+          <a class="social-link instagram" href="https://www.instagram.com/lunar1ya_live/" target="_blank" rel="noopener noreferrer"><img class="social-icon" src="https://cdn.simpleicons.org/instagram/FF8FC4" alt="" loading="lazy" />Instagram</a>
           <a class="social-link donate" href="https://www.donationalerts.com/r/lunar1ya" target="_blank" rel="noopener noreferrer">♡ Поддержать</a>
         </nav>
       </section>
@@ -292,282 +185,164 @@
       </section>
     </aside>
     <main class="section library-content">
-    <div class="status-bar" id="statusBar" role="tablist" aria-label="Статус">
-      <button type="button" class="sbtn is-active" data-status="all">🎮 Все игры</button>
-      <button type="button" class="sbtn" data-status="playing">⏳ В процессе</button>
-      <button type="button" class="sbtn" data-status="done">✅ Пройдены</button>
-      <button type="button" class="sbtn" data-status="planned">📌 В планах</button>
-      <button type="button" class="sbtn" data-status="new">🆕 Не начато</button>
-      <button type="button" class="sbtn" data-status="mp">🕹️ MP</button>
-      <button type="button" class="sbtn" data-status="coop">🤝 Coop</button>
-    </div>
-
-    <div class="controls">
-      <input type="search" id="search" class="search" placeholder="🔎 Поиск по названию…" aria-label="Поиск" />
-
-      <label class="select-wrap">
-        <span class="select-label">Жанр</span>
-        <select id="genreFilter" aria-label="Фильтр по жанру"></select>
-      </label>
-
-      <label class="select-wrap">
-        <span class="select-label">Эпоха</span>
-        <select id="eraFilter" aria-label="Фильтр по эпохе">
-          <option value="all">Все эпохи</option>
-          <option value="new">🔥 Новинки (2024–2026)</option>
-          <option value="modern">⚡ Современные (2018–2023)</option>
-          <option value="retro">📜 Ретро & Классика (до 2018)</option>
-        </select>
-      </label>
-
-      <label class="select-wrap">
-        <span class="select-label">Сортировка</span>
-        <select id="sort" aria-label="Сортировка">
-          <option value="title-asc">Название (А → Я)</option>
-          <option value="title-desc">Название (Я → А)</option>
-          <option value="year-desc">Год (сначала новые)</option>
-          <option value="year-asc">Год (сначала старые)</option>
-        </select>
-      </label>
-
-      <button type="button" class="reset" id="reset">✕ Сбросить</button>
-
-      <div class="view-toggle" role="group" aria-label="Вид">
-        <button type="button" class="vbtn is-active" data-view="grid" aria-label="Сетка">▦ Сетка</button>
-        <button type="button" class="vbtn" data-view="list" aria-label="Список">☰ Список</button>
+      <div class="status-bar" id="statusBar" role="tablist" aria-label="Статус">
+        <button type="button" class="sbtn is-active" data-status="all">🎮 Все игры</button>
+        <button type="button" class="sbtn" data-status="playing">⏳ В процессе</button>
+        <button type="button" class="sbtn" data-status="done">✅ Пройдены</button>
+        <button type="button" class="sbtn" data-status="planned">📌 В планах</button>
+        <button type="button" class="sbtn" data-status="new">🆕 Не начато</button>
+        <button type="button" class="sbtn" data-status="mp">🕹️ MP</button>
+        <button type="button" class="sbtn" data-status="coop">🤝 Coop</button>
       </div>
-    </div>
 
-    <p class="result-count" id="resultCount"></p>
+      <div class="controls">
+        <input type="search" id="search" class="search" placeholder="🔎 Поиск по названию…" aria-label="Поиск" />
+        <label class="select-wrap"><span class="select-label">Жанр</span><select id="genreFilter" aria-label="Фильтр по жанру"></select></label>
+        <label class="select-wrap"><span class="select-label">Эпоха</span>
+          <select id="eraFilter" aria-label="Фильтр по эпохе">
+            <option value="all">Все эпохи</option>
+            <option value="new">🔥 Новинки (2024–2026)</option>
+            <option value="modern">⚡ Современные (2018–2023)</option>
+            <option value="retro">📜 Ретро & Классика (до 2018)</option>
+          </select>
+        </label>
+        <label class="select-wrap"><span class="select-label">Сортировка</span>
+          <select id="sort" aria-label="Сортировка">
+            <option value="title-asc">Название (А → Я)</option>
+            <option value="title-desc">Название (Я → А)</option>
+            <option value="year-desc">Год (сначала новые)</option>
+            <option value="year-asc">Год (сначала старые)</option>
+          </select>
+        </label>
+        <button type="button" class="reset" id="reset">✕ Сбросить</button>
+        <div class="view-toggle" role="group" aria-label="Вид">
+          <button type="button" class="vbtn is-active" data-view="grid" aria-label="Сетка">▦ Сетка</button>
+          <button type="button" class="vbtn" data-view="list" aria-label="Список">☰ Список</button>
+        </div>
+      </div>
 
-    <div class="games" id="games" data-view="grid"></div>
-
-    <p class="empty" id="empty" hidden>Ничего не найдено. Попробуйте изменить фильтры.</p>
+      <p class="result-count" id="resultCount"></p>
+      <div class="games" id="games" data-view="grid"></div>
+      <p class="empty" id="empty" hidden>Ничего не найдено. Попробуйте изменить фильтры.</p>
     </main>
   </div>
 
-  <footer class="site-footer">
-    <p>© <span id="year"></span> Lunar1ya · Библиотека игр</p>
-  </footer>
+  <footer class="site-footer"><p>© <span id="year"></span> Lunar1ya · Библиотека игр</p></footer>
 
   <script>
-    /* ===== Данные: список игр =====
-       Чтобы добавить игру — добавьте объект в массив GAMES:
-       { title: "Название", genre: "Экшены", year: 2024, status: "playing", tags: ["coop"] }
-       status: new | playing | done | planned ; tags: mp | coop (необязательно)
-       cover: "covers/name.jpg" (необязательно; без него — цветная заглушка) */
     const GAMES = [
-      // Импорт из публичного профиля Rankone: https://www.rankone.global/lunahoomalu
-      // Взяты видимые игры (избранное + показанные отзывы). Жанры/статусы — лучшая догадка, правьте под себя.
-      { title: "Constance",                genre: "Инди",               year: 2025, status: "done",     tags: []},
-      { title: "Grime II",                 genre: "Экшены",             year: 2026, status: "done",     tags: []},
-      { title: "RV There Yet?",            genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"]},
-      { title: "Peak",                     genre: "Казуальные",         year: 2025, status: "done",     tags: ["coop"]},
-      { title: "Valorant",                 genre: "Экшены",             year: 2020, status: "playing",  tags: ["mp"]},
-      { title: "Hollow Knight",            genre: "Приключения",        year: 2017, status: "done",     tags: []},
-      { title: "Hollow Knight: Silksong",  genre: "Приключения",        year: 2025, status: "done",     tags: []},
-      { title: "Replaced",                 genre: "Экшены",             year: 2023, status: "done",     tags: []},
-      // В планах (добавлено вручную):
-      { title: "Little Misfortune",         genre: "Приключения",        year: 2019, status: "planned",  tags: []},
-      { title: "Bendy and the Ink Factory", genre: "Экшены",             year: 2026, status: "planned",  tags: []}, // Steam: TBA / coming soon
-      { title: "Cult of the Lamb",          genre: "Экшены",             year: 2022, status: "planned",  tags: [] },
-      { title: "Portal 2",                  genre: "Головоломки",        year: 2011, status: "planned",  tags: [] },
-      { title: "Split Fiction",             genre: "Приключения",        year: 2025, status: "planned",  tags: ["coop"] },
-      { title: "Little Nightmares II",      genre: "Приключения",        year: 2021, status: "planned",  tags: ["coop"] },
-      { title: "Stardew Valley",            genre: "Симуляторы",         year: 2016, status: "planned",  tags: ["coop"] },
-      { title: "The Last of Us Part I",     genre: "Экшены",             year: 2022, status: "planned",  tags: [] },
-      { title: "Outlast",                   genre: "Экшены",             year: 2013, status: "planned",  tags: [] },
-      // В процессе (добавлено вручную):
-      { title: "Metro: Last Light Redux",   genre: "Экшены",             year: 2019, status: "playing",  tags: [] },
-      { title: "Stray",                     genre: "Приключения",        year: 2022, status: "playing",  tags: [] },
-      // Пройдены (добавлено вручную):
-      { title: "Moomintroll: Winter's Warmth", genre: "Приключения",    year: 2024, status: "done",     tags: [] },
-      { title: "Little Nightmares",            genre: "Приключения",    year: 2017, status: "done",     tags: [] },
-      { title: "Little Nightmares III",        genre: "Приключения",    year: 2025, status: "done",     tags: ["coop"] },
-      { title: "Resident Evil Requiem",        genre: "Экшены",          year: 2026, status: "done",     tags: [] },
-      { title: "Scam Line",                    genre: "Инди",            year: 2024, status: "done",     tags: [] },
-      // Пройдены (добавлено вручную, продолжение) — годы/жанры сверены по Steam:
-      { title: "Fran Bow",                      genre: "Приключения",    year: 2015, status: "done",     tags: [] },
-      { title: "The Past Within",               genre: "Приключения",    year: 2022, status: "done",     tags: ["coop"] },
-      { title: "Creepy Tale",                   genre: "Приключения",    year: 2020, status: "done",     tags: [] },
-      { title: "The Mortuary Assistant",        genre: "Приключения",    year: 2022, status: "done",     tags: [] },
-      { title: "We Were Here",                  genre: "Экшены",          year: 2017, status: "done",     tags: ["coop"] },
-      { title: "We Were Here Too",              genre: "Приключения",    year: 2018, status: "done",     tags: ["coop"] },
-      { title: "We Were Here Together",         genre: "Приключения",    year: 2019, status: "done",     tags: ["coop"] },
-      { title: "We Were Here Forever",          genre: "Приключения",    year: 2021, status: "done",     tags: ["coop"] },
-      { title: "Escape the Backrooms",          genre: "Экшены",          year: 2025, status: "done",     tags: ["coop"] },
-      { title: "Mafia II: Definitive Edition",  genre: "Экшены",          year: 2020, status: "done",     tags: [] },
-      { title: "Mafia: Definitive Edition",     genre: "Экшены",          year: 2020, status: "done",     tags: [] },
-      { title: "Reanimal",                      genre: "Приключения",    year: 2026, status: "done",     tags: [] },
-      { title: "We Were Here Expeditions: The FriendShip", genre: "Приключения", year: 2023, status: "done", tags: ["coop"] },
-      { title: "Call of the Sea",               genre: "Приключения",    year: 2020, status: "done",     tags: [] },
-      { title: "Labyrinthine",                  genre: "Экшены",          year: 2023, status: "done",     tags: ["coop"] },
-      { title: "Better Mart Simulator",         genre: "Симуляторы",      year: 2025, status: "done",     tags: [] },
-      { title: "Lost in Play",                  genre: "Приключения",    year: 2022, status: "done",     tags: [] },
-      { title: "There Is No Game",              genre: "Приключения",    year: 2020, status: "done",     tags: [] },
-      { title: "It Takes Two",                  genre: "Экшены",          year: 2021, status: "done",     tags: ["coop"] },
-      { title: "The Last Campfire",             genre: "Приключения",    year: 2021, status: "done",     tags: [] },
-      { title: "Metro 2033 Redux",              genre: "Экшены",          year: 2014, status: "done",     tags: [] }
+      {title:"Constance",genre:"Инди",year:2025,status:"done",tags:[],cover:"covers_webp/Constance.webp",coverFallback:"covers/Constance.png"},
+      {title:"Grime II",genre:"Экшены",year:2026,status:"done",tags:[],cover:"covers_webp/Grime_II.webp",coverFallback:"covers/Grime_II.png"},
+      {title:"RV There Yet?",genre:"Казуальные",year:2025,status:"done",tags:["coop"],cover:"covers_webp/RV_There_Yet.webp",coverFallback:"covers/RV_There_Yet.png"},
+      {title:"Peak",genre:"Казуальные",year:2025,status:"done",tags:["coop"],cover:"covers_webp/Peak.webp",coverFallback:"covers/Peak.png"},
+      {title:"Valorant",genre:"Экшены",year:2020,status:"playing",tags:["mp"],cover:"covers_webp/Valorant.webp",coverFallback:"covers/Valorant.png"},
+      {title:"Hollow Knight",genre:"Приключения",year:2017,status:"done",tags:[],cover:"covers_webp/Hollow_Knight.webp",coverFallback:"covers/Hollow_Knight.png"},
+      {title:"Hollow Knight: Silksong",genre:"Приключения",year:2025,status:"done",tags:[],cover:"covers_webp/Hollow_Knight_Silksong.webp",coverFallback:"covers/Hollow_Knight_Silksong.png"},
+      {title:"Replaced",genre:"Экшены",year:2023,status:"done",tags:[],cover:"covers_webp/Replaced.webp",coverFallback:"covers/Replaced.png"},
+      {title:"Little Misfortune",genre:"Приключения",year:2019,status:"planned",tags:[],cover:"covers_webp/Little_Misfortune.webp",coverFallback:"covers/Little_Misfortune.png"},
+      {title:"Bendy and the Ink Factory",genre:"Экшены",year:2026,status:"planned",tags:[],cover:"covers_webp/Bendy_and_the_Ink_Factory.webp",coverFallback:"covers/Bendy_and_the_Ink_Factory.png"},
+      {title:"Cult of the Lamb",genre:"Экшены",year:2022,status:"planned",tags:[],cover:"covers_webp/Cult_of_the_Lamb.webp",coverFallback:"covers/Cult_of_the_Lamb.png"},
+      {title:"Portal 2",genre:"Головоломки",year:2011,status:"planned",tags:[],cover:"covers_webp/Portal_2.webp",coverFallback:"covers/Portal_2.png"},
+      {title:"Split Fiction",genre:"Приключения",year:2025,status:"planned",tags:["coop"],cover:"covers_webp/Split_Fiction.webp",coverFallback:"covers/Split_Fiction.png"},
+      {title:"Little Nightmares II",genre:"Приключения",year:2021,status:"planned",tags:["coop"],cover:"covers_webp/Little_Nightmares_II.webp",coverFallback:"covers/Little_Nightmares_II.png"},
+      {title:"Stardew Valley",genre:"Симуляторы",year:2016,status:"planned",tags:["coop"],cover:"covers_webp/Stardew_Valley.webp",coverFallback:"covers/Stardew_Valley.png"},
+      {title:"The Last of Us Part I",genre:"Экшены",year:2022,status:"planned",tags:[],cover:"covers_webp/The_Last_of_Us_Part_I.webp",coverFallback:"covers/The_Last_of_Us_Part_I.png"},
+      {title:"Outlast",genre:"Экшены",year:2013,status:"planned",tags:[],cover:"covers_webp/Outlast.webp",coverFallback:"covers/Outlast.png"},
+      {title:"Metro: Last Light Redux",genre:"Экшены",year:2019,status:"playing",tags:[],cover:"covers_webp/Metro_Last_Light_Redux.webp",coverFallback:"covers/Metro_Last_Light_Redux.png"},
+      {title:"Stray",genre:"Приключения",year:2022,status:"playing",tags:[],cover:"covers_webp/Stray.webp",coverFallback:"covers/Stray.png"},
+      {title:"Moomintroll: Winter's Warmth",genre:"Приключения",year:2024,status:"done",tags:[],cover:"covers_webp/Moomintroll_Winters_Warmth.webp",coverFallback:"covers/Moomintroll_Winters_Warmth.png"},
+      {title:"Little Nightmares",genre:"Приключения",year:2017,status:"done",tags:[],cover:"covers_webp/Little_Nightmares.webp",coverFallback:"covers/Little_Nightmares.png"},
+      {title:"Little Nightmares III",genre:"Приключения",year:2025,status:"done",tags:["coop"],cover:"covers_webp/Little_Nightmares_III.webp",coverFallback:"covers/Little_Nightmares_III.png"},
+      {title:"Resident Evil Requiem",genre:"Экшены",year:2026,status:"done",tags:[],cover:"covers_webp/Resident_Evil_Requiem.webp",coverFallback:"covers/Resident_Evil_Requiem.png"},
+      {title:"Scam Line",genre:"Инди",year:2024,status:"done",tags:[],cover:"covers_webp/Scam_Line.webp",coverFallback:"covers/Scam_Line.png"},
+      {title:"Fran Bow",genre:"Приключения",year:2015,status:"done",tags:[],cover:"covers_webp/Fran_Bow.webp",coverFallback:"covers/Fran_Bow.png"},
+      {title:"The Past Within",genre:"Приключения",year:2022,status:"done",tags:["coop"],cover:"covers_webp/The_Past_Within.webp",coverFallback:"covers/The_Past_Within.png"},
+      {title:"Creepy Tale",genre:"Приключения",year:2020,status:"done",tags:[],cover:"covers_webp/Creepy_Tale.webp",coverFallback:"covers/Creepy_Tale.png"},
+      {title:"The Mortuary Assistant",genre:"Приключения",year:2022,status:"done",tags:[],cover:"covers_webp/The_Mortuary_Assistant.webp",coverFallback:"covers/The_Mortuary_Assistant.png"},
+      {title:"We Were Here",genre:"Экшены",year:2017,status:"done",tags:["coop"],cover:"covers_webp/We_Were_Here.webp",coverFallback:"covers/We_Were_Here.png"},
+      {title:"We Were Here Too",genre:"Приключения",year:2018,status:"done",tags:["coop"],cover:"covers_webp/We_Were_Here_Too.webp",coverFallback:"covers/We_Were_Here_Too.png"},
+      {title:"We Were Here Together",genre:"Приключения",year:2019,status:"done",tags:["coop"],cover:"covers_webp/We_Were_Here_Together.webp",coverFallback:"covers/We_Were_Here_Together.png"},
+      {title:"We Were Here Forever",genre:"Приключения",year:2021,status:"done",tags:["coop"],cover:"covers_webp/We_Were_Here_Forever.webp",coverFallback:"covers/We_Were_Here_Forever.png"},
+      {title:"Escape the Backrooms",genre:"Экшены",year:2025,status:"done",tags:["coop"],cover:"covers_webp/Escape_the_Backrooms.webp",coverFallback:"covers/Escape_the_Backrooms.png"},
+      {title:"Mafia: Definitive Edition",genre:"Экшены",year:2020,status:"done",tags:[],cover:"covers_webp/Mafia_Definitive_Edition.webp",coverFallback:"covers/Mafia_Definitive_Edition.png"},
+      {title:"Mafia II: Definitive Edition",genre:"Экшены",year:2020,status:"done",tags:[],cover:"covers_webp/Mafia_II_Definitive_Edition.webp",coverFallback:"covers/Mafia_II_Definitive_Edition.png"},
+      {title:"Reanimal",genre:"Приключения",year:2026,status:"done",tags:[],cover:"covers_webp/Reanimal.webp",coverFallback:"covers/Reanimal.png"},
+      {title:"We Were Here Expeditions: The FriendShip",genre:"Приключения",year:2023,status:"done",tags:["coop"],cover:"covers_webp/We_Were_Here_Expeditions.webp",coverFallback:"covers/We_Were_Here_Expeditions.png"},
+      {title:"Call of the Sea",genre:"Приключения",year:2020,status:"done",tags:[],cover:"covers_webp/Call_of_the_Sea.webp",coverFallback:"covers/Call_of_the_Sea.png"},
+      {title:"Labyrinthine",genre:"Экшены",year:2023,status:"done",tags:["coop"],cover:"covers_webp/Labyrinthine.webp",coverFallback:"covers/Labyrinthine.png"},
+      {title:"Better Mart Simulator",genre:"Симуляторы",year:2025,status:"done",tags:[],cover:"covers_webp/Better_Mart_Simulator.webp",coverFallback:"covers/Better_Mart_Simulator.png"},
+      {title:"Lost in Play",genre:"Приключения",year:2022,status:"done",tags:[],cover:"covers_webp/Lost_in_Play.webp",coverFallback:"covers/Lost_in_Play.png"},
+      {title:"There Is No Game",genre:"Приключения",year:2020,status:"done",tags:[],cover:"covers_webp/There_Is_No_Game.webp",coverFallback:"covers/There_Is_No_Game.png"},
+      {title:"It Takes Two",genre:"Экшены",year:2021,status:"done",tags:["coop"],cover:"covers_webp/It_Takes_Two.webp",coverFallback:"covers/It_Takes_Two.png"},
+      {title:"The Last Campfire",genre:"Приключения",year:2021,status:"done",tags:[],cover:"covers_webp/The_Last_Campfire.webp",coverFallback:"covers/The_Last_Campfire.png"},
+      {title:"Metro 2033 Redux",genre:"Экшены",year:2014,status:"done",tags:[],cover:"covers_webp/Metro_2033_Redux.webp",coverFallback:"covers/Metro_2033_Redux.png"}
     ];
 
-    /* ===== Логика интерфейса ===== */
-    const STATUS_META = {
-      new:     { label: "🆕 Не начато",  cls: "st-new" },
-      playing: { label: "⏳ В процессе", cls: "st-playing" },
-      done:    { label: "✅ Пройдено",  cls: "st-done" },
-      planned: { label: "📌 В планах",   cls: "st-planned" }
-    };
-    const TAG_META = { mp: "🕹️ MP", coop: "🤝 Coop" };
+    const STATUS_META = {new:{label:"🆕 Не начато",cls:"st-new"},playing:{label:"⏳ В процессе",cls:"st-playing"},done:{label:"✅ Пройдено",cls:"st-done"},planned:{label:"📌 В планах",cls:"st-planned"}};
+    const TAG_META = {mp:"🕹️ MP",coop:"🤝 Coop"};
+    const state = {status:"all",genre:"all",era:"all",query:"",sort:"title-asc",view:"grid"};
+    const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+    const gamesEl = $("#games"), emptyEl = $("#empty"), resultCountEl = $("#resultCount");
 
-    const state = { status: "all", genre: "all", era: "all", query: "", sort: "title-asc", view: "grid" };
-    const $ = (s) => document.querySelector(s);
-    const gamesEl = $("#games");
-    const emptyEl = $("#empty");
-    const resultCountEl = $("#resultCount");
+    function hashString(str){let h=0;for(let i=0;i<str.length;i++)h=(h*31+str.charCodeAt(i))>>>0;return h}
+    function placeholderCover(title){const h=hashString(title),hue1=h%360,hue2=(hue1+60+h%120)%360;return`<div class="ph-cover" style="background:linear-gradient(135deg,hsl(${hue1} 60% 35%),hsl(${hue2} 65% 22%))">${title.trim().charAt(0).toUpperCase()}</div>`}
+    function coverFallback(img){img.insertAdjacentHTML("afterend",placeholderCover(img.dataset.title||"?"));img.remove()}
 
-    function hashString(str) {
-      let h = 0;
-      for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
-      return h;
-    }
-    function placeholderCover(title) {
-      const h = hashString(title);
-      const hue1 = h % 360;
-      const hue2 = (hue1 + 60 + (h % 120)) % 360;
-      const bg = `linear-gradient(135deg, hsl(${hue1} 60% 35%), hsl(${hue2} 65% 22%))`;
-      const letter = title.trim().charAt(0).toUpperCase();
-      return `<div class="ph-cover" style="background:${bg}">${letter}</div>`;
-    }
-    function coverFallback(img) {
-      const ph = placeholderCover(img.getAttribute("data-title") || "?");
-      img.insertAdjacentHTML("afterend", ph);
-      img.remove();
+    function gameCard(g){
+      const st=STATUS_META[g.status]||STATUS_META.new;
+      const tags=(g.tags||[]).map(t=>`<span class="g-tag">${TAG_META[t]||t}</span>`).join("");
+      const src=g.cover,fallback=g.coverFallback;
+      return`<article class="game" data-title="${g.title.toLowerCase()}"><div class="cover"><picture><source type="image/webp" srcset="${src}"><img class="cover-img" src="${fallback}" alt="${g.title}" data-title="${g.title}" loading="lazy" onerror="coverFallback(this)"></picture><span class="badge ${st.cls}">${st.label}</span></div><div class="info"><h3 class="g-title">${g.title}</h3><div class="g-meta"><span>${g.genre}</span><span>${g.year}</span></div><div class="g-tags">${tags}</div></div></article>`;
     }
 
-    function gameCard(game) {
-      const st = STATUS_META[game.status] || STATUS_META.new;
-      const tags = (game.tags || []).map((t) => `<span class="g-tag">${TAG_META[t] || t}</span>`).join("");
-      const cover = game.cover
-        ? `<img class="cover-img" src="${game.cover}" alt="${game.title}" data-title="${game.title}" loading="lazy" onerror="coverFallback(this)">`
-        : placeholderCover(game.title);
-      return `
-        <article class="game" data-title="${game.title.toLowerCase()}">
-          <div class="cover">${cover}<span class="badge ${st.cls}">${st.label}</span></div>
-          <div class="info">
-            <h3 class="g-title">${game.title}</h3>
-            <div class="g-meta"><span>${game.genre}</span><span>${game.year}</span></div>
-            <div class="g-tags">${tags}</div>
-          </div>
-        </article>`;
+    function renderStats(){
+      const c={total:GAMES.length,playing:0,done:0,planned:0};
+      GAMES.forEach(g=>{if(c[g.status]!==void 0)c[g.status]++});
+      $$("#stats [data-stat]").forEach(el=>el.textContent=c[el.dataset.stat]);
     }
+    function fillGenres(){const gs=[...new Set(GAMES.map(g=>g.genre))].sort((a,b)=>a.localeCompare(b,"ru"));$("#genreFilter").innerHTML=`<option value="all">Все жанры</option>`+gs.map(g=>`<option value="${g}">${g}</option>`).join("")}
 
-    function renderStats() {
-      const counts = { total: GAMES.length, playing: 0, done: 0, planned: 0 };
-      GAMES.forEach((g) => { if (counts[g.status] !== undefined) counts[g.status]++; });
-      document.querySelectorAll("#stats [data-stat]").forEach((el) => { el.textContent = counts[el.dataset.stat]; });
-    }
-
-    function fillGenres() {
-      const genres = [...new Set(GAMES.map((g) => g.genre))].sort((a, b) => a.localeCompare(b, "ru"));
-      $("#genreFilter").innerHTML = `<option value="all">Все жанры</option>` + genres.map((g) => `<option value="${g}">${g}</option>`).join("");
-    }
-
-    function getFiltered() {
-      let list = GAMES.filter((g) => {
-        if (state.status === "all") {
-          // все
-        } else if (["mp", "coop"].includes(state.status)) {
-          if (!(g.tags || []).includes(state.status)) return false;
-        } else if (g.status !== state.status) {
-          return false;
-        }
-        if (state.genre !== "all" && g.genre !== state.genre) return false;
-        if (state.era === "new" && !(g.year >= 2024)) return false;
-        if (state.era === "modern" && !(g.year >= 2018 && g.year <= 2023)) return false;
-        if (state.era === "retro" && !(g.year < 2018)) return false;
-        if (state.query && !g.title.toLowerCase().includes(state.query)) return false;
+    function getFiltered(){
+      return GAMES.filter(g=>{
+        if(state.status!=="all"){if(["mp","coop"].includes(state.status)){if(!(g.tags||[]).includes(state.status))return false}else if(g.status!==state.status)return false}
+        if(state.genre!=="all"&&g.genre!==state.genre)return false;
+        if(state.era==="new"&&!(g.year>=2024))return false;
+        if(state.era==="modern"&&!(g.year>=2018&&g.year<=2023))return false;
+        if(state.era==="retro"&&!(g.year<2018))return false;
+        if(state.query&&!g.title.toLowerCase().includes(state.query))return false;
         return true;
-      });
-      const cmp = {
-        "title-asc":  (a, b) => a.title.localeCompare(b.title, "ru"),
-        "title-desc": (a, b) => b.title.localeCompare(a.title, "ru"),
-        "year-desc":  (a, b) => b.year - a.year,
-        "year-asc":   (a, b) => a.year - b.year
-      }[state.sort];
-      list.sort(cmp);
-      return list;
+      }).sort((a,b)=>{const s=state.sort;return s==="title-asc"?a.title.localeCompare(b.title,"ru"):s==="title-desc"?b.title.localeCompare(a.title,"ru"):s==="year-desc"?b.year-a.year:a.year-b.year});
     }
 
-    function renderSidebarStats(list) {
-      const completed = GAMES.filter((g) => g.status === "done").length;
-      const percent = GAMES.length ? (completed / GAMES.length) * 100 : 0;
-      $("#progressPercent").textContent = `${percent.toFixed(1)}%`;
-      $("#progressFill").style.width = `${percent}%`;
-      $("#sidebarTotal").textContent = GAMES.length;
-      $("#sidebarFiltered").textContent = list.length;
-
-      const genres = Object.entries(GAMES.reduce((counts, game) => {
-        counts[game.genre] = (counts[game.genre] || 0) + 1;
-        return counts;
-      }, {})).sort((a, b) => b[1] - a[1]).slice(0, 3);
-      $("#genreList").innerHTML = genres.map(([genre, count]) => {
-        const share = (count / GAMES.length) * 100;
-        return `<div class="genre-row"><div class="genre-row-head"><b>${genre}</b><span>${share.toFixed(0)}% (${count})</span></div><div class="genre-bar"><i style="width:${share}%"></i></div></div>`;
-      }).join("");
+    function renderSidebarStats(list){
+      const done=GAMES.filter(g=>g.status==="done").length,pct=GAMES.length?(done/GAMES.length)*100:0;
+      $("#progressPercent").textContent=pct.toFixed(1)+"%";$("#progressFill").style.width=pct+"%";
+      $("#sidebarTotal").textContent=GAMES.length;$("#sidebarFiltered").textContent=list.length;
+      const top=Object.entries(GAMES.reduce((c,g)=>{c[g.genre]=(c[g.genre]||0)+1;return c},{})).sort((a,b)=>b[1]-a[1]).slice(0,3);
+      $("#genreList").innerHTML=top.map(([genre,count])=>{const p=(count/GAMES.length)*100;return`<div class="genre-row"><div class="genre-row-head"><b>${genre}</b><span>${p.toFixed(0)}% (${count})</span></div><div class="genre-bar"><i style="width:${p}%"></i></div></div>`}).join("");
     }
 
-    function render() {
-      const list = getFiltered();
-      gamesEl.dataset.view = state.view;
-      gamesEl.innerHTML = list.map(gameCard).join("");
-      emptyEl.hidden = list.length !== 0;
-      const word = list.length === 1 ? "игра" : (list.length < 5 ? "игры" : "игр");
-      resultCountEl.textContent = `Показано: ${list.length} ${word}`;
+    function render(){
+      const list=getFiltered();
+      gamesEl.dataset.view=state.view;gamesEl.innerHTML=list.map(gameCard).join("");
+      emptyEl.hidden=list.length!==0;
+      const w=list.length===1?"игра":list.length<5?"игры":"игр";
+      resultCountEl.textContent=`Показано: ${list.length} ${w}`;
       renderSidebarStats(list);
     }
 
-    function bindEvents() {
-      $("#statusBar").addEventListener("click", (e) => {
-        const btn = e.target.closest(".sbtn");
-        if (!btn) return;
-        $("#statusBar .sbtn").forEach((b) => b.classList.remove("is-active"));
-        btn.classList.add("is-active");
-        state.status = btn.dataset.status;
-        render();
-      });
-      $("#genreFilter").addEventListener("change", (e) => { state.genre = e.target.value; render(); });
-      $("#eraFilter").addEventListener("change", (e) => { state.era = e.target.value; render(); });
-      $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
-      let t;
-      $("#search").addEventListener("input", (e) => {
-        clearTimeout(t);
-        t = setTimeout(() => { state.query = e.target.value.trim().toLowerCase(); render(); }, 120);
-      });
-      document.querySelectorAll(".vbtn").forEach((b) => {
-        b.addEventListener("click", () => {
-          document.querySelectorAll(".vbtn").forEach((x) => x.classList.remove("is-active"));
-          b.classList.add("is-active");
-          state.view = b.dataset.view;
-          render();
-        });
-      });
-      $("#reset").addEventListener("click", () => {
-        state.status = "all"; state.genre = "all"; state.era = "all"; state.query = ""; state.sort = "title-asc";
-        $("#search").value = "";
-        $("#genreFilter").value = "all";
-        $("#eraFilter").value = "all";
-        $("#sort").value = "title-asc";
-        $("#statusBar .sbtn").forEach((b) => b.classList.toggle("is-active", b.dataset.status === "all"));
-        render();
-      });
+    function bind(){
+      $("#statusBar").addEventListener("click",e=>{const b=e.target.closest(".sbtn");if(!b)return;$$("#statusBar .sbtn").forEach(x=>x.classList.remove("is-active"));b.classList.add("is-active");state.status=b.dataset.status;render()});
+      $("#genreFilter").addEventListener("change",e=>{state.genre=e.target.value;render()});
+      $("#eraFilter").addEventListener("change",e=>{state.era=e.target.value;render()});
+      $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render()});
+      let t;$("#search").addEventListener("input",e=>{clearTimeout(t);t=setTimeout(()=>{state.query=e.target.value.trim().toLowerCase();render()},120)});
+      $$(".vbtn").forEach(b=>b.addEventListener("click",()=>{$$(".vbtn").forEach(x=>x.classList.remove("is-active"));b.classList.add("is-active");state.view=b.dataset.view;render()}));
+      $("#reset").addEventListener("click",()=>{state.status="all";state.genre="all";state.era="all";state.query="";state.sort="title-asc";$("#search").value="";$("#genreFilter").value="all";$("#eraFilter").value="all";$("#sort").value="title-asc";$$("#statusBar .sbtn").forEach(b=>b.classList.toggle("is-active",b.dataset.status==="all"));render()});
     }
 
-    document.getElementById("year").textContent = new Date().getFullYear();
-    renderStats();
-    fillGenres();
-    bindEvents();
-    render();
+    document.getElementById("year").textContent=new Date().getFullYear();
+    renderStats();fillGenres();bind();render();
   </script>
-
 </body>
 </html>
