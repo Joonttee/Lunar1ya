@@ -128,8 +128,69 @@
     .g-tag{font-size:.7rem;color:var(--accent-2);border:1px solid var(--border);padding:2px 8px;border-radius:999px}
     .empty{text-align:center;color:var(--muted);padding:50px 0}
     .site-footer{text-align:center;padding:36px 16px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border);position:relative;z-index:1}
+    /* ===== Админка ===== */
+    .nav{display:flex;align-items:center;gap:14px}
+    .admin-open{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);font-weight:700;cursor:pointer;font-size:.9rem;font-family:inherit;transition:all .2s}
+    .admin-open:hover{color:var(--text);background:var(--surface-2)}
+    .admin-back{position:fixed;inset:0;z-index:50;display:none;align-items:flex-start;justify-content:center;padding:4vh 16px 6vh;background:rgba(3,4,12,.72);backdrop-filter:blur(8px);overflow-y:auto}
+    .admin-back.open{display:flex}
+    .admin-panel{width:min(940px,100%);background:linear-gradient(180deg,#0d1330,#0b0f24);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 30px 90px rgba(0,0,0,.55);padding:20px 20px 24px}
+    .admin-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+    .admin-title{font-size:1.15rem;font-weight:800}
+    .admin-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .abtn{padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-weight:700;font-size:.82rem;font-family:inherit;cursor:pointer;transition:all .2s}
+    .abtn:hover{color:var(--text);border-color:rgba(124,92,255,.5)}
+    .abtn.primary{background:linear-gradient(120deg,var(--accent),var(--accent-2));color:#0b0f24;border-color:transparent}
+    .abtn.danger:hover{color:#ff8a8a;border-color:rgba(255,90,90,.5)}
+    .admin-pin{max-width:420px;margin:6vh auto 4vh;text-align:center}
+    .admin-pin-emoji{font-size:2.6rem}
+    .admin-pin h3{margin:12px 0 6px;font-size:1.2rem}
+    .admin-pin p{color:var(--muted);font-size:.88rem;margin-bottom:16px}
+    .pin-row{display:flex;gap:8px;justify-content:center}
+    .pin-input{width:170px;text-align:center;letter-spacing:6px;font-size:1.2rem;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--text)}
+    .pin-err{color:#ff8a8a;font-size:.82rem;min-height:1.2em;margin-top:10px}
+    .pin-forget{margin-top:8px;background:none;border:none;color:var(--muted);font-size:.8rem;font-family:inherit;cursor:pointer;text-decoration:underline}
+    .admin-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+    .admin-box-title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+    .admin-box p.hint{color:var(--muted);font-size:.78rem;margin:4px 0 2px;line-height:1.5}
+    .admin-box p.hint b{color:var(--accent-2);font-weight:700}
+    .url-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+    .url-row label{font-size:.8rem;font-weight:700;color:var(--muted);white-space:nowrap}
+    .uinput{flex:1 1 220px;min-width:180px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--text);font-size:.85rem;font-family:inherit}
+    .add-grid{display:grid;grid-template-columns:2fr .7fr 1.3fr 1.2fr;gap:8px;margin-top:8px}
+    .add-grid input,.add-grid select{min-width:0;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--text);font-size:.85rem;font-family:inherit}
+    .add-row2{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    .add-check{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:.82rem;cursor:pointer}
+    .add-cover-btn{position:relative;overflow:hidden}
+    .add-cover-btn input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+    .add-preview{width:34px;height:45px;border-radius:6px;object-fit:cover;border:1px solid var(--border)}
+    .admin-search{width:100%;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(5,6,15,.5);color:var(--text);font-size:.9rem;font-family:inherit;margin:4px 0 10px}
+    .admin-list{display:grid;gap:8px;max-height:46vh;overflow-y:auto;padding-right:4px}
+    .admin-row{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:8px 10px}
+    .admin-row.has-override{border-color:rgba(98,244,175,.55)}
+    .admin-row-hidden{opacity:.55}
+    .admin-thumb{width:38px;height:50px;object-fit:cover;border-radius:7px;background:#11162e;flex-shrink:0}
+    .admin-thumb-ph{width:38px;height:50px;border-radius:7px;display:grid;place-items:center;font-weight:800;font-size:1.1rem;color:rgba(255,255,255,.85);flex-shrink:0}
+    .admin-row-main{flex:1;min-width:0}
+    .admin-row-title{font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .badge-custom{font-size:.66rem;color:#62f4af;border:1px solid rgba(98,244,175,.5);padding:1px 7px;border-radius:999px;vertical-align:middle;margin-left:6px}
+    .admin-row-meta{display:flex;gap:6px;align-items:center;margin-top:4px;color:var(--muted);font-size:.74rem}
+    .admin-gx{background:rgba(5,6,15,.5);border:1px solid transparent;border-radius:7px;color:var(--muted);font-size:.74rem;font-family:inherit;padding:3px 7px}
+    .admin-gx:focus{border-color:var(--accent-2);color:var(--text);outline:none}
+    .admin-gx.g-year{width:64px}
+    .admin-row-controls{display:flex;gap:6px;align-items:center;flex-shrink:0}
+    .admin-flag{border:1px solid var(--border);background:transparent;border-radius:9px;padding:5px 7px;cursor:pointer;opacity:.35;filter:grayscale(1);transition:all .15s;font-size:.85rem}
+    .admin-flag.on{opacity:1;filter:none;border-color:var(--accent-2);background:rgba(77,159,255,.12)}
+    .admin-status{min-width:0;max-width:150px;padding:7px 8px;font-size:.78rem}
+    .admin-del{border:1px solid transparent;background:transparent;border-radius:9px;padding:5px 7px;cursor:pointer;color:var(--muted);font-size:.85rem}
+    .admin-del:hover{color:#ff8a8a;border-color:rgba(255,90,90,.4)}
+    .admin-foot{color:var(--muted);font-size:.76rem;margin-top:12px;line-height:1.5}
+    .st-hidden{background:rgba(200,90,150,.85)}
+    body.is-admin .game.is-hidden{opacity:.5}
+    .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(18px);z-index:80;background:rgba(13,19,43,.97);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:11px 18px;font-size:.88rem;font-weight:600;box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:min(520px,92vw);text-align:center}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     @media (max-width:860px){.library-layout{grid-template-columns:1fr}.sidebar{position:static;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
-    @media (max-width:640px){.library-layout{padding:16px;gap:16px}.sidebar{grid-template-columns:1fr;gap:12px}.profile-card{padding:16px}.social-grid{grid-template-columns:repeat(3,1fr)}.social-link.wide{grid-column:auto}.view-toggle{margin-left:0;width:100%}.vbtn{flex:1}.controls{gap:10px}select{min-width:0;flex:1}}
+    @media (max-width:640px){.library-layout{padding:16px;gap:16px}.sidebar{grid-template-columns:1fr;gap:12px}.profile-card{padding:16px}.social-grid{grid-template-columns:repeat(3,1fr)}.social-link.wide{grid-column:auto}.view-toggle{margin-left:0;width:100%}.vbtn{flex:1}.controls{gap:10px}select{min-width:0;flex:1}.add-grid{grid-template-columns:1fr 1fr}.admin-status{max-width:120px}.admin-row{flex-wrap:wrap}.admin-row-controls{width:100%;justify-content:flex-end}}
   </style>
 </head>
 <body>
@@ -138,7 +199,10 @@
 
   <header class="site-header">
     <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">LUNAR<span class="accent">1</span>YA</span></a>
-    <nav class="nav" aria-label="Меню"><a href="#library">Библиотека</a></nav>
+    <nav class="nav" aria-label="Меню">
+      <a href="#library">Библиотека</a>
+      <button type="button" class="admin-open" id="adminOpenBtn" title="Админ-панель">⚙ Админ</button>
+    </nav>
   </header>
 
   <section class="hero" id="top">
@@ -229,8 +293,17 @@
 
   <footer class="site-footer"><p>© <span id="year"></span> Lunar1ya · Библиотека игр</p></footer>
 
+  <!-- Админ-панель -->
+  <div class="admin-back" id="adminBack">
+    <div class="admin-panel" role="dialog" aria-modal="true" aria-label="Админ-панель">
+      <div id="adminContent"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
-    const GAMES = [
+    // ================= Данные каталога (базовый список из репозитория) =================
+const GAMES = [
       {title:"Constance",genre:"Инди",year:2025,status:"done",tags:[],cover:"covers_webp/Constance.webp",coverFallback:"covers/Constance.png"},
       {title:"Grime II",genre:"Экшены",year:2026,status:"done",tags:[],cover:"covers_webp/Grime_II.webp",coverFallback:"covers/Grime_II.png"},
       {title:"RV There Yet?",genre:"Казуальные",year:2025,status:"done",tags:["coop"],cover:"covers_webp/RV_There_Yet.webp",coverFallback:"covers/RV_There_Yet.png"},
@@ -278,57 +351,303 @@
       {title:"Metro 2033 Redux",genre:"Экшены",year:2014,status:"done",tags:[],cover:"covers_webp/Metro_2033_Redux.webp",coverFallback:"covers/Metro_2033_Redux.png"}
     ];
 
+    // ================= Конфиг =================
+    // Upload «как на MikkleoGame»: удалённое JSON-хранилище для зрителей.
+    // URL можно прописать прямо здесь (видны всем) или в data/remote.json.
+    const REMOTE_DEFAULTS = { overridesUrl: "", gamesUrl: "" };
+
     const STATUS_META = {new:{label:"🆕 Не начато",cls:"st-new"},playing:{label:"⏳ В процессе",cls:"st-playing"},done:{label:"✅ Пройдено",cls:"st-done"},planned:{label:"📌 В планах",cls:"st-planned"}};
     const TAG_META = {mp:"🕹️ MP",coop:"🤝 Coop"};
+    const LS = {
+      OVERRIDES:"lunar1ya_overrides_v1",
+      CUSTOM:"lunar1ya_custom_games_v1",
+      PIN:"lunar1ya_admin_pin_hash_v1",
+      SESSION:"lunar1ya_admin_session",
+      URL_OVERRIDES:"lunar1ya_remote_overrides_url",
+      URL_GAMES:"lunar1ya_remote_games_url",
+      JSONBIN_KEY:"lunar1ya_jsonbin_key"
+    };
     const state = {status:"all",genre:"all",era:"all",query:"",sort:"title-asc",view:"grid"};
     const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
     const gamesEl = $("#games"), emptyEl = $("#empty"), resultCountEl = $("#resultCount");
 
+    // ================= Утилиты =================
+    function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+    function normKey(t){return String(t||"").replace(/[^0-9a-zA-Zа-яА-ЯёЁ]/g,"").toLowerCase()}
     function hashString(str){let h=0;for(let i=0;i<str.length;i++)h=(h*31+str.charCodeAt(i))>>>0;return h}
-    function placeholderCover(title){const h=hashString(title),hue1=h%360,hue2=(hue1+60+h%120)%360;return`<div class="ph-cover" style="background:linear-gradient(135deg,hsl(${hue1} 60% 35%),hsl(${hue2} 65% 22%))">${title.trim().charAt(0).toUpperCase()}</div>`}
+    function placeholderCover(title){const h=hashString(String(title)),hue1=h%360,hue2=(hue1+60+h%120)%360;return`<div class="ph-cover" style="background:linear-gradient(135deg,hsl(${hue1} 60% 35%),hsl(${hue2} 65% 22%))">${String(title).trim().charAt(0).toUpperCase()}</div>`}
     function coverFallback(img){img.insertAdjacentHTML("afterend",placeholderCover(img.dataset.title||"?"));img.remove()}
+    let toastTimer;
+    function showToast(msg){const t=$("#toast");if(!t)return;t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3000)}
+    async function hashPin(pin){
+      const salted="lunar1ya-admin:"+pin;
+      if(window.crypto&&crypto.subtle){
+        try{
+          const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salted));
+          return[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+        }catch{}
+      }
+      // Фолбэк для file:// и старых браузеров (не криптостойкий, но PIN — это не пароль к банку)
+      let h1=5381,h2=52711;
+      for(let i=0;i<salted.length;i++){const c=salted.charCodeAt(i);h1=(h1*33)^c;h2=(h2*31)^c}
+      return"fb-"+(h1>>>0).toString(16)+(h2>>>0).toString(16)+"-"+salted.length;
+    }
 
-    function gameCard(g){
-      const st=STATUS_META[g.status]||STATUS_META.new;
-      const tags=(g.tags||[]).map(t=>`<span class="g-tag">${TAG_META[t]||t}</span>`).join("");
-      const src=g.cover,fallback=g.coverFallback;
-      return`<article class="game" data-title="${g.title.toLowerCase()}"><div class="cover"><picture><source type="image/webp" srcset="${src}"><img class="cover-img" src="${fallback}" alt="${g.title}" data-title="${g.title}" loading="lazy" onerror="coverFallback(this)"></picture><span class="badge ${st.cls}">${st.label}</span></div><div class="info"><h3 class="g-title">${g.title}</h3><div class="g-meta"><span>${g.genre}</span><span>${g.year}</span></div><div class="g-tags">${tags}</div></div></article>`;
+    // ================= Хранилище правок (localStorage) =================
+    let _ovCache=null,_ovRaw=null;
+    function loadOverrides(){
+      try{
+        const raw=localStorage.getItem(LS.OVERRIDES);
+        if(raw===_ovRaw&&_ovCache)return _ovCache;
+        const parsed=JSON.parse(raw||"{}");
+        _ovCache=parsed;_ovRaw=raw;return parsed;
+      }catch{return{}}
+    }
+    function saveOverrides(map){
+      try{const raw=JSON.stringify(map);localStorage.setItem(LS.OVERRIDES,raw);_ovCache=map;_ovRaw=raw}
+      catch{showToast("Не удалось сохранить правки (localStorage переполнен?)")}
+    }
+    function loadCustomGames(){try{const p=JSON.parse(localStorage.getItem(LS.CUSTOM)||"[]");return Array.isArray(p)?p:[]}catch{return[]}}
+    function saveCustomGames(list){
+      try{localStorage.setItem(LS.CUSTOM,JSON.stringify(list));return true}
+      catch{showToast("Не влезло в localStorage — уменьши обложку или удали лишние свои игры");return false}
+    }
+    function isAdmin(){try{return sessionStorage.getItem(LS.SESSION)==="1"}catch{return false}}
+    function setAdmin(on){
+      try{on?sessionStorage.setItem(LS.SESSION,"1"):sessionStorage.removeItem(LS.SESSION)}catch{}
+      document.body.classList.toggle("is-admin",!!on);
+    }
+    function getStoredPinHash(){try{return localStorage.getItem(LS.PIN)}catch{return null}}
+    function setStoredPinHash(h){try{localStorage.setItem(LS.PIN,h)}catch{}}
+    function removeStoredPin(){try{localStorage.removeItem(LS.PIN)}catch{}}
+
+    // ================= Upload в удалённое JSON-хранилище (Pantry / jsonbin / generic) =================
+    function detectProvider(url){
+      const u=(url||"").toLowerCase();
+      if(u.includes("getpantry.cloud"))return"pantry";
+      if(u.includes("jsonbin.io"))return"jsonbin";
+      return"generic";
+    }
+    // GET-хелпер: разворачивает pantry {games:[...]}, playnite {Games:[...]}, jsonbin {record:...}, сырой массив
+    async function fetchRemoteGamesList(url){
+      try{
+        const res=await fetch((url||"").trim(),{cache:"no-store"});
+        if(!res.ok)return[];
+        const j=await res.json().catch(()=>null);
+        if(Array.isArray(j))return j;
+        if(j&&typeof j==="object"){
+          if(Array.isArray(j.games))return j.games;
+          if(Array.isArray(j.Games))return j.Games;
+          if(Array.isArray(j.record))return j.record;
+          if(j.record&&Array.isArray(j.record.games))return j.record.games;
+        }
+        return[];
+      }catch{return[]}
+    }
+    // Полная замена содержимого. Pantry — только POST (PUT там deep-merge: удалённое НЕ исчезнет).
+    async function uploadJsonToRemote(rawUrl,data){
+      const url=(rawUrl||"").trim();
+      const provider=detectProvider(url);
+      let payload=data;
+      if(provider==="pantry"&&Array.isArray(data))payload={games:data};
+      const headers={"Content-Type":"application/json"};
+      if(provider==="jsonbin"){try{const key=localStorage.getItem(LS.JSONBIN_KEY)||"";if(key)headers["X-Master-Key"]=key}catch{}}
+      const methods=provider==="pantry"?["POST"]:provider==="jsonbin"?["PUT"]:["POST","PUT","PATCH"];
+      let last=null;
+      for(const method of methods){
+        try{
+          const res=await fetch(url,{method,headers,body:JSON.stringify(payload,null,2)});
+          const bodyText=await res.text().catch(()=>"");
+          if(res.ok)return{ok:true,method,status:res.status,bodyText,provider,url};
+          last={ok:false,method,status:res.status,bodyText:bodyText.slice(0,300),provider,url};
+        }catch(e){
+          last={ok:false,method,status:0,bodyText:String((e&&e.message)||e),provider,url};
+        }
+      }
+      return last||{ok:false,method:"",status:0,bodyText:"no attempts",provider,url};
+    }
+    function explainUploadFailure(result){
+      const{status,bodyText,method}=result||{};
+      const detail=((method?method+" ":"")+(status||"")+(bodyText?": "+bodyText:"")).slice(0,140);
+      let hint;
+      if(status===401||status===402||status===403){
+        hint="Хранилище отказало в записи ("+status+"). Проверь URL/ключ, либо используй бесплатную Pantry — getpantry.cloud (см. ADMIN.md).";
+      }else if(status===404||(bodyText||"").includes("Not Found")){
+        hint="Хранилище не найдено (404). Проверь URL: для Pantry — getpantry.cloud/apiv1/pantry/ID/basket/ИМЯ, корзина создаётся первой заливкой.";
+      }else if(status===400){
+        hint="Хранилище отклонило данные (400). Для Pantry — проверь, что pantry ID существует и payload влезает в лимит (1.44 МБ).";
+      }else if(!status||(bodyText||"").includes("Failed to fetch")||(bodyText||"").includes("NetworkError")||(bodyText||"").includes("CORS")){
+        hint="Сеть/CORS не пустили запрос — попробуй ещё раз.";
+      }else{
+        hint="Не удалось залить. Проверь URL хранилища (см. ADMIN.md) и попробуй ещё раз.";
+      }
+      return detail?hint+" ("+detail+")":hint;
+    }
+
+    // ================= Удалённый слой для зрителей =================
+    let REMOTE_OVERRIDES={};   // публичные правки (залитые через «⬆️ Статусы»)
+    let REMOTE_GAMES=[];       // доп. игры (залитые через «⬆️ Игры»)
+    let REMOTE_URLS={overridesUrl:"",gamesUrl:""};
+    // Приоритет: localStorage (настроено в админке этого браузера) → константа → data/remote.json
+    async function resolveRemoteUrls(){
+      let ov=REMOTE_DEFAULTS.overridesUrl||"",gm=REMOTE_DEFAULTS.gamesUrl||"";
+      try{
+        const res=await fetch("data/remote.json",{cache:"no-store"});
+        if(res.ok){
+          const cfg=await res.json().catch(()=>null);
+          if(cfg&&typeof cfg==="object"){
+            if(!ov)ov=cfg.overridesUrl||cfg.url||cfg.remoteUrl||"";
+            if(!gm)gm=cfg.gamesUrl||cfg.games_url||cfg.libraryUrl||"";
+          }
+        }
+      }catch{}
+      try{
+        ov=localStorage.getItem(LS.URL_OVERRIDES)||ov;
+        gm=localStorage.getItem(LS.URL_GAMES)||gm;
+      }catch{}
+      REMOTE_URLS={overridesUrl:ov||"",gamesUrl:gm||""};
+      return REMOTE_URLS;
+    }
+    async function loadRemoteData(){
+      const{overridesUrl,gamesUrl}=await resolveRemoteUrls();
+      if(overridesUrl){
+        try{
+          const res=await fetch(overridesUrl,{cache:"no-store"});
+          if(res.ok){
+            const j=await res.json().catch(()=>null);
+            REMOTE_OVERRIDES=(j&&typeof j==="object")?(j.overrides&&typeof j.overrides==="object"?j.overrides:j):{};
+          }
+        }catch{REMOTE_OVERRIDES={}}
+      }
+      if(gamesUrl)REMOTE_GAMES=await fetchRemoteGamesList(gamesUrl);
+    }
+
+    // ================= Каталог: базовый список + удалённые игры + свои (мердж по названию) =================
+    function normalizeRemoteGame(g){
+      if(!g||typeof g!=="object")return{title:""};
+      const title=g.title||g.name||g.Name||"";
+      const status=["new","playing","done","planned"].includes(g.status)?g.status:
+        (g.status==="completed"?"done":g.status==="in_progress"?"playing":g.status==="none"?"new":"new");
+      return{
+        title:String(title),
+        genre:g.genre||g.Genre||"Не указан",
+        year:parseInt(g.year||g.Year||g.releaseYear,10)||"",
+        status,
+        tags:Array.isArray(g.tags)?g.tags.filter(t=>t==="mp"||t==="coop"):[],
+        cover:g.cover||g.image||""
+      };
+    }
+    function buildCatalog(){
+      const map=new Map();
+      const push=(g,source)=>{
+        const key=normKey(g.title);
+        if(!key||map.has(key))return;
+        map.set(key,Object.assign({},g,{id:key,_source:source}));
+      };
+      GAMES.forEach(g=>push(g,"base"));          // базовый каталог (в index.html)
+      REMOTE_GAMES.map(normalizeRemoteGame).forEach(g=>push(g,"remote")); // опубликованные позже
+      CUSTOM_GAMES.forEach(g=>push(g,"custom")); // добавленные в этом браузере
+      return[...map.values()];
+    }
+    let CUSTOM_GAMES=loadCustomGames();
+    let CATALOG=buildCatalog();
+
+    // Эффективные значения: локальные правки (этот браузер) > удалённые (для всех) > базовый каталог
+    function effStatus(g){
+      const l=loadOverrides()[g.id];
+      if(l&&"status"in l)return l.status;
+      const r=REMOTE_OVERRIDES[g.id];
+      if(r&&"status"in r)return r.status;
+      return g.status||"new";
+    }
+    function baseFlag(g,f){
+      const r=REMOTE_OVERRIDES[g.id];
+      if(r&&f in r)return!!r[f];
+      return(g.tags||[]).includes(f);
+    }
+    function effFlag(g,f){
+      const l=loadOverrides()[g.id];
+      if(l&&f in l)return!!l[f];
+      return baseFlag(g,f);
+    }
+    function baseGenre(g){const r=REMOTE_OVERRIDES[g.id];if(r&&r.genre)return r.genre;return g.genre||"Не указан"}
+    function effGenre(g){const l=loadOverrides()[g.id];if(l&&l.genre)return l.genre;return baseGenre(g)}
+    function baseYear(g){const r=REMOTE_OVERRIDES[g.id];if(r&&"year"in r)return r.year;return g.year||""}
+    function effYear(g){const l=loadOverrides()[g.id];if(l&&"year"in l)return l.year;return baseYear(g)}
+    function effectiveTags(g){
+      const tags=[];
+      if(effFlag(g,"mp"))tags.push("mp");
+      if(effFlag(g,"coop"))tags.push("coop");
+      (g.tags||[]).forEach(t=>{if(t!=="mp"&&t!=="coop"&&!tags.includes(t))tags.push(t)});
+      return tags;
+    }
+    function view(g){
+      return{id:g.id,title:g.title,genre:effGenre(g),year:effYear(g),status:effStatus(g),tags:effectiveTags(g),
+        cover:g.cover||"",coverFallback:g.coverFallback||"",hidden:effFlag(g,"hidden"),source:g._source};
+    }
+    // Скрытые игры видны только в активной админ-сессии
+    function displayList(){return CATALOG.filter(g=>isAdmin()||!effFlag(g,"hidden")).map(view)}
+
+    // ================= Рендер витрины =================
+    function gameCard(v){
+      const st=STATUS_META[v.status]||STATUS_META.new;
+      const tags=(v.tags||[]).map(t=>`<span class="g-tag">${TAG_META[t]||esc(t)}</span>`).join("");
+      let coverHtml;
+      if(v.cover&&v.coverFallback&&String(v.cover).indexOf("covers_webp/")===0){
+        coverHtml=`<picture><source type="image/webp" srcset="${esc(v.cover)}"><img class="cover-img" src="${esc(v.coverFallback)}" alt="${esc(v.title)}" data-title="${esc(v.title)}" loading="lazy" onerror="coverFallback(this)"></picture>`;
+      }else if(v.cover){
+        coverHtml=`<img class="cover-img" src="${esc(v.cover)}" alt="${esc(v.title)}" data-title="${esc(v.title)}" loading="lazy" onerror="coverFallback(this)">`;
+      }else{
+        coverHtml=placeholderCover(v.title);
+      }
+      const hiddenBadge=v.hidden?`<span class="badge st-hidden" style="left:auto;right:8px">🙈 Скрыта</span>`:"";
+      return`<article class="game${v.hidden?" is-hidden":""}" data-title="${esc(v.title.toLowerCase())}"><div class="cover">${coverHtml}<span class="badge ${st.cls}">${st.label}</span>${hiddenBadge}</div><div class="info"><h3 class="g-title">${esc(v.title)}</h3><div class="g-meta"><span>${esc(v.genre)}</span><span>${esc(v.year)}</span></div><div class="g-tags">${tags}</div></div></article>`;
     }
 
     function renderStats(){
-      const c={total:GAMES.length,playing:0,done:0,planned:0};
-      GAMES.forEach(g=>{if(c[g.status]!==void 0)c[g.status]++});
+      const list=displayList(),c={total:list.length,playing:0,done:0,planned:0};
+      list.forEach(v=>{if(c[v.status]!==void 0)c[v.status]++});
       $$("#stats [data-stat]").forEach(el=>el.textContent=c[el.dataset.stat]);
     }
-    function fillGenres(){const gs=[...new Set(GAMES.map(g=>g.genre))].sort((a,b)=>a.localeCompare(b,"ru"));$("#genreFilter").innerHTML=`<option value="all">Все жанры</option>`+gs.map(g=>`<option value="${g}">${g}</option>`).join("")}
+    function fillGenres(){
+      const prev=state.genre;
+      const gs=[...new Set(displayList().map(v=>v.genre))].sort((a,b)=>String(a).localeCompare(String(b),"ru"));
+      $("#genreFilter").innerHTML=`<option value="all">Все жанры</option>`+gs.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join("");
+      if(prev!=="all"&&gs.includes(prev)){$("#genreFilter").value=prev}else if(prev!=="all"){state.genre="all";$("#genreFilter").value="all"}
+    }
 
-    function getFiltered(){
-      return GAMES.filter(g=>{
-        if(state.status!=="all"){if(["mp","coop"].includes(state.status)){if(!(g.tags||[]).includes(state.status))return false}else if(g.status!==state.status)return false}
-        if(state.genre!=="all"&&g.genre!==state.genre)return false;
-        if(state.era==="new"&&!(g.year>=2024))return false;
-        if(state.era==="modern"&&!(g.year>=2018&&g.year<=2023))return false;
-        if(state.era==="retro"&&!(g.year<2018))return false;
-        if(state.query&&!g.title.toLowerCase().includes(state.query))return false;
+    function getFiltered(list){
+      return list.filter(v=>{
+        if(state.status!=="all"){if(["mp","coop"].includes(state.status)){if(!v.tags.includes(state.status))return false}else if(v.status!==state.status)return false}
+        if(state.genre!=="all"&&v.genre!==state.genre)return false;
+        if(state.era==="new"&&!(v.year>=2024))return false;
+        if(state.era==="modern"&&!(v.year>=2018&&v.year<=2023))return false;
+        if(state.era==="retro"&&!(v.year<2018))return false;
+        if(state.query&&!v.title.toLowerCase().includes(state.query))return false;
         return true;
-      }).sort((a,b)=>{const s=state.sort;return s==="title-asc"?a.title.localeCompare(b.title,"ru"):s==="title-desc"?b.title.localeCompare(a.title,"ru"):s==="year-desc"?b.year-a.year:a.year-b.year});
+      }).sort((a,b)=>{const s=state.sort;return s==="title-asc"?a.title.localeCompare(b.title,"ru"):s==="title-desc"?b.title.localeCompare(a.title,"ru"):s==="year-desc"?(b.year||0)-(a.year||0):(a.year||0)-(b.year||0)});
     }
 
     function renderSidebarStats(list){
-      const done=GAMES.filter(g=>g.status==="done").length,pct=GAMES.length?(done/GAMES.length)*100:0;
+      const all=displayList(),done=all.filter(v=>v.status==="done").length,pct=all.length?(done/all.length)*100:0;
       $("#progressPercent").textContent=pct.toFixed(1)+"%";$("#progressFill").style.width=pct+"%";
-      $("#sidebarTotal").textContent=GAMES.length;$("#sidebarFiltered").textContent=list.length;
-      const top=Object.entries(GAMES.reduce((c,g)=>{c[g.genre]=(c[g.genre]||0)+1;return c},{})).sort((a,b)=>b[1]-a[1]).slice(0,3);
-      $("#genreList").innerHTML=top.map(([genre,count])=>{const p=(count/GAMES.length)*100;return`<div class="genre-row"><div class="genre-row-head"><b>${genre}</b><span>${p.toFixed(0)}% (${count})</span></div><div class="genre-bar"><i style="width:${p}%"></i></div></div>`}).join("");
+      $("#sidebarTotal").textContent=all.length;$("#sidebarFiltered").textContent=list.length;
+      const top=Object.entries(all.reduce((c,v)=>{c[v.genre]=(c[v.genre]||0)+1;return c},{})).sort((a,b)=>b[1]-a[1]).slice(0,3);
+      $("#genreList").innerHTML=top.map(([genre,count])=>{const p=all.length?(count/all.length)*100:0;return`<div class="genre-row"><div class="genre-row-head"><b>${esc(genre)}</b><span>${p.toFixed(0)}% (${count})</span></div><div class="genre-bar"><i style="width:${p}%"></i></div></div>`}).join("");
     }
 
     function render(){
-      const list=getFiltered();
+      const list=getFiltered(displayList());
       gamesEl.dataset.view=state.view;gamesEl.innerHTML=list.map(gameCard).join("");
       emptyEl.hidden=list.length!==0;
-      const w=list.length===1?"игра":list.length<5?"игры":"игр";
+      const w=list.length===1?"игра":(list.length<5?"игры":"игр");
       resultCountEl.textContent=`Показано: ${list.length} ${w}`;
       renderSidebarStats(list);
+    }
+
+    function onDataChanged(){
+      CATALOG=buildCatalog();
+      renderStats();fillGenres();render();
     }
 
     function bind(){
@@ -341,8 +660,395 @@
       $("#reset").addEventListener("click",()=>{state.status="all";state.genre="all";state.era="all";state.query="";state.sort="title-asc";$("#search").value="";$("#genreFilter").value="all";$("#eraFilter").value="all";$("#sort").value="title-asc";$$("#statusBar .sbtn").forEach(b=>b.classList.toggle("is-active",b.dataset.status==="all"));render()});
     }
 
+    // ================= Админ-панель =================
+    const adminBack=$("#adminBack"),adminContent=$("#adminContent");
+    let addCoverData="";
+
+    function openAdmin(){adminBack.classList.add("open");document.body.style.overflow="hidden";renderAdmin()}
+    function closeAdmin(){adminBack.classList.remove("open");document.body.style.overflow=""}
+
+    function adminThumb(g){
+      const src=g.cover||g.coverFallback||"";
+      if(src)return`<img class="admin-thumb" src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">`;
+      const h=hashString(g.title||"?"),hue1=h%360,hue2=(hue1+60+h%120)%360;
+      return`<div class="admin-thumb-ph" style="background:linear-gradient(135deg,hsl(${hue1} 60% 35%),hsl(${hue2} 65% 22%))">${String(g.title||"?").trim().charAt(0).toUpperCase()}</div>`;
+    }
+
+    async function tryLogin(){
+      const input=$("#adminPinInput"),err=$("#adminPinErr");
+      const pin=(input&&input.value||"").trim();
+      if(!/^\d{4,6}$/.test(pin)){err.textContent="PIN должен быть 4–6 цифр";return}
+      const hashed=await hashPin(pin);
+      const stored=getStoredPinHash();
+      if(stored){
+        if(stored===hashed){setAdmin(true);onDataChanged();renderAdmin()}
+        else{err.textContent="Неверный PIN";input.value="";input.focus()}
+      }else{
+        setStoredPinHash(hashed);setAdmin(true);onDataChanged();renderAdmin();
+        showToast("PIN задан — добро пожаловать в админку");
+      }
+    }
+    function forgetPin(){
+      if(!confirm("Сбросить PIN? Локальные правки статусов останутся."))return;
+      removeStoredPin();setAdmin(false);onDataChanged();renderAdmin();
+    }
+    function adminLogout(){setAdmin(false);closeAdmin();onDataChanged()}
+
+    function renderAdmin(){if(!isAdmin()){renderPinPrompt();return}renderAdminList()}
+
+    function renderPinPrompt(){
+      const hasPin=!!getStoredPinHash();
+      adminContent.innerHTML=`
+      <div class="admin-pin">
+        <div class="admin-pin-emoji">🔐</div>
+        <h3>${hasPin?"Введите PIN-код":"Задайте новый PIN-код"}</h3>
+        <p>${hasPin?"PIN хранится локально в этом браузере.":"Придумайте 4–6 цифр — PIN будет запрашиваться при открытии админки на этом устройстве."}</p>
+        <div class="pin-row">
+          <input id="adminPinInput" class="pin-input" type="password" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="••••" />
+          <button id="adminPinSubmit" class="abtn primary">${hasPin?"Войти":"Задать PIN и войти"}</button>
+        </div>
+        <p class="pin-err" id="adminPinErr"></p>
+        ${hasPin?`<button id="adminForgetPin" class="pin-forget">Забыли PIN? Сбросить</button>`:""}
+      </div>`;
+      const input=$("#adminPinInput"),submit=$("#adminPinSubmit"),forget=$("#adminForgetPin");
+      if(input){input.focus();input.addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin()})}
+      if(submit)submit.addEventListener("click",tryLogin);
+      if(forget)forget.addEventListener("click",forgetPin);
+    }
+
+    function renderAdminList(){
+      const overrides=loadOverrides();
+      const totalOverrides=Object.keys(overrides).length;
+      const hiddenCount=CATALOG.filter(g=>effFlag(g,"hidden")).length;
+      const genres=[...new Set(CATALOG.map(g=>baseGenre(g)))].sort((a,b)=>String(a).localeCompare(String(b),"ru"));
+      const rows=CATALOG.map(g=>{
+        const id=g.id;
+        const mpOn=effFlag(g,"mp"),coopOn=effFlag(g,"coop"),hiddenOn=effFlag(g,"hidden");
+        const statusOv=!!(overrides[id]&&overrides[id].status!==undefined);
+        const cur=effStatus(g);
+        const isCustom=g._source==="custom";
+        return`
+        <div class="admin-row${overrides[id]?" has-override":""}${hiddenOn?" admin-row-hidden":""}" data-id="${esc(id)}" data-title="${esc((g.title||"").toLowerCase())}" data-genre="${esc(String(baseGenre(g)).toLowerCase())}">
+          ${adminThumb(g)}
+          <div class="admin-row-main">
+            <div class="admin-row-title">${esc(g.title)}${isCustom?`<span class="badge-custom">своя</span>`:""}</div>
+            <div class="admin-row-meta">
+              <input class="admin-gx g-genre" value="${esc(effGenre(g))}" title="Жанр" aria-label="Жанр" />
+              <span>·</span>
+              <input class="admin-gx g-year" type="number" min="1970" max="2100" value="${esc(effYear(g))}" title="Год" aria-label="Год" />
+              ${hiddenOn?`<span>· 🙈 скрыта от зрителей</span>`:""}
+            </div>
+          </div>
+          <div class="admin-row-controls">
+            <button type="button" class="admin-flag${mpOn?" on":""}" data-flag="mp" title="Мультиплеер">🕹️</button>
+            <button type="button" class="admin-flag${coopOn?" on":""}" data-flag="coop" title="Кооператив">🤝</button>
+            <button type="button" class="admin-flag${hiddenOn?" on":""}" data-flag="hidden" title="Скрыть от зрителей">🙈</button>
+            <select class="admin-status" aria-label="Статус">
+              <option value="__default__"${statusOv?"":" selected"}>— дефолт —</option>
+              <option value="playing"${statusOv&&cur==="playing"?" selected":""}>⏳ В процессе</option>
+              <option value="done"${statusOv&&cur==="done"?" selected":""}>✅ Пройдено</option>
+              <option value="planned"${statusOv&&cur==="planned"?" selected":""}>📌 В планах</option>
+              <option value="new"${statusOv&&cur==="new"?" selected":""}>🆕 Не начато</option>
+            </select>
+            ${isCustom?`<button type="button" class="admin-del" title="Удалить игру">🗑</button>`:""}
+          </div>
+        </div>`;
+      }).join("");
+
+      adminContent.innerHTML=`
+      <div class="admin-head">
+        <div class="admin-title">⚙️ Админ-панель</div>
+        <div class="admin-actions">
+          <button type="button" class="abtn" id="adminExportBtn">💾 Экспорт</button>
+          <button type="button" class="abtn" id="adminImportBtn">📥 Импорт</button>
+          <input type="file" id="adminImportFile" accept=".json,application/json" hidden />
+          <button type="button" class="abtn danger" id="adminResetBtn">🗑 Сброс правок</button>
+          <button type="button" class="abtn" id="adminLogoutBtn">🚪 Выйти</button>
+          <button type="button" class="abtn" id="adminCloseBtn">✕</button>
+        </div>
+      </div>
+
+      <div class="admin-box">
+        <div class="admin-box-title">☁️ Публикация для зрителей (upload)</div>
+        <p class="hint">Правки хранятся только в этом браузере, пока не нажмёшь <b>⬆️</b>. Рекомендуемое бесплатное хранилище — <b>Pantry</b> (getpantry.cloud): создай pantry и вставь URL корзин, например <b>lunar1ya-statuses</b> и <b>lunar1ya-games</b>. Чтобы зрители видели данные на любом устройстве, пропиши те же URL в <b>data/remote.json</b> (подробно — ADMIN.md). Лимит Pantry: 1.44 МБ.</p>
+        <div class="url-row">
+          <label for="remoteUrlInput">Статусы:</label>
+          <input class="uinput" type="url" id="remoteUrlInput" placeholder="https://getpantry.cloud/apiv1/pantry/ID/basket/lunar1ya-statuses" value="${esc(REMOTE_URLS.overridesUrl)}" />
+          <button type="button" class="abtn" id="saveRemoteUrlBtn">💾 URL</button>
+          <button type="button" class="abtn primary" id="exportToRemoteBtn">⬆️ Статусы</button>
+        </div>
+        <div class="url-row">
+          <label for="remoteGamesUrlInput">Игры:</label>
+          <input class="uinput" type="url" id="remoteGamesUrlInput" placeholder="https://getpantry.cloud/apiv1/pantry/ID/basket/lunar1ya-games" value="${esc(REMOTE_URLS.gamesUrl)}" />
+          <button type="button" class="abtn" id="saveRemoteGamesUrlBtn">💾 URL</button>
+          <button type="button" class="abtn primary" id="uploadGamesBtn">⬆️ Игры</button>
+        </div>
+      </div>
+
+      <div class="admin-box">
+        <div class="admin-box-title">➕ Добавить игру (с загрузкой обложки)</div>
+        <div class="add-grid">
+          <input id="addTitle" placeholder="Название *" />
+          <input id="addYear" type="number" min="1970" max="2100" placeholder="Год" />
+          <input id="addGenre" list="adminGenres" placeholder="Жанр" />
+          <select id="addStatus">
+            <option value="new">🆕 Не начато</option>
+            <option value="playing">⏳ В процессе</option>
+            <option value="done">✅ Пройдено</option>
+            <option value="planned">📌 В планах</option>
+          </select>
+        </div>
+        <datalist id="adminGenres">${genres.map(g=>`<option value="${esc(g)}">`).join("")}</datalist>
+        <div class="add-row2">
+          <label class="add-check"><input type="checkbox" id="addMp" /> 🕹️ MP</label>
+          <label class="add-check"><input type="checkbox" id="addCoop" /> 🤝 Coop</label>
+          <button type="button" class="abtn add-cover-btn" id="addCoverBtn">🖼 Загрузить обложку<input type="file" id="addCoverFile" accept="image/*" /></button>
+          <img class="add-preview" id="addPreview" alt="Превью обложки" hidden />
+          <input class="uinput" id="addCoverUrl" type="url" placeholder="…или URL обложки" style="flex:1 1 180px" />
+          <button type="button" class="abtn primary" id="addGameBtn">➕ Добавить</button>
+        </div>
+      </div>
+
+      <input class="admin-search" id="adminSearch" placeholder="🔎 Поиск по названию или жанру…" />
+      <div class="admin-list" id="adminList">${rows}</div>
+
+      <p class="admin-foot">
+        Локальных правок: <b>${totalOverrides}</b> · Скрыто от зрителей: <b>${hiddenCount}</b> · Своих игр: <b>${CUSTOM_GAMES.length}</b><br/>
+        Правки живут в localStorage этого браузера до нажатия ⬆️. «💾 Экспорт» — скачать JSON для переноса на другое устройство, «📥 Импорт» — загрузить его обратно.
+      </p>`;
+      bindAdminList();
+    }
+
+    function readCoverFile(file){
+      return new Promise(resolve=>{
+        const img=new Image();
+        const url=URL.createObjectURL(file);
+        img.onload=()=>{
+          const maxW=300;
+          const scale=Math.min(1,maxW/img.width);
+          const w=Math.max(1,Math.round(img.width*scale)),h=Math.max(1,Math.round(img.height*scale));
+          const c=document.createElement("canvas");c.width=w;c.height=h;
+          c.getContext("2d").drawImage(img,0,0,w,h);
+          URL.revokeObjectURL(url);
+          let out="";
+          try{
+            out=c.toDataURL("image/webp",0.82);
+            if(out.length<120||out.indexOf("data:image/webp")!==0)out=c.toDataURL("image/jpeg",0.85);
+          }catch{try{out=c.toDataURL("image/jpeg",0.85)}catch{out=""}}
+          resolve(out);
+        };
+        img.onerror=()=>{URL.revokeObjectURL(url);resolve("")};
+        img.src=url;
+      });
+    }
+
+    function bindAdminList(){
+      // --- Публикация (upload) ---
+      $("#saveRemoteUrlBtn").addEventListener("click",()=>{
+        const url=$("#remoteUrlInput").value.trim();
+        try{url?localStorage.setItem(LS.URL_OVERRIDES,url):localStorage.removeItem(LS.URL_OVERRIDES)}catch{}
+        REMOTE_URLS.overridesUrl=url;
+        showToast(url?"URL статусов сохранён — теперь залей ⬆️ Статусы":"URL статусов очищен");
+      });
+      $("#saveRemoteGamesUrlBtn").addEventListener("click",()=>{
+        const url=$("#remoteGamesUrlInput").value.trim();
+        try{url?localStorage.setItem(LS.URL_GAMES,url):localStorage.removeItem(LS.URL_GAMES)}catch{}
+        REMOTE_URLS.gamesUrl=url;
+        showToast(url?"URL игр сохранён — теперь залей ⬆️ Игры":"URL игр очищен");
+      });
+      $("#exportToRemoteBtn").addEventListener("click",async()=>{
+        const url=$("#remoteUrlInput").value.trim()||REMOTE_URLS.overridesUrl;
+        if(!url){showToast("Сначала вставь URL удалённого хранилища статусов");return}
+        const data=loadOverrides();
+        if(!Object.keys(data).length){
+          if(!confirm("Локально правок нет. Заливка ПОЛНОСТЬЮ ЗАМЕНИТ удалённое хранилище пустым набором — удалённые статусы и скрытые метки пропадут у зрителей. Продолжить?"))return;
+        }
+        showToast("Заливаю статусы…");
+        const result=await uploadJsonToRemote(url,data);
+        if(result.ok){
+          REMOTE_OVERRIDES=data;onDataChanged();
+          showToast("✓ Статусы опубликованы ("+result.method+" → "+result.provider+"). Зрители увидят после перезагрузки");
+        }else{
+          showToast(explainUploadFailure(result));
+        }
+      });
+      $("#uploadGamesBtn").addEventListener("click",async()=>{
+        const url=$("#remoteGamesUrlInput").value.trim()||REMOTE_URLS.gamesUrl;
+        if(!url){showToast("Сначала вставь URL удалённого хранилища игр");return}
+        // Полный видимый каталог с применёнными правками, без скрытых игр
+        const data=CATALOG.filter(g=>!effFlag(g,"hidden")).map(g=>({
+          title:g.title,
+          genre:effGenre(g),
+          year:effYear(g),
+          status:effStatus(g),
+          tags:effectiveTags(g),
+          cover:g.cover||""
+        }));
+        const approx=JSON.stringify(data).length;
+        if(approx>1400000&&!confirm("Размер данных ≈ "+(approx/1048576).toFixed(1)+" МБ — Pantry принимает максимум 1.44 МБ. Продолжить?"))return;
+        showToast("Заливаю игры…");
+        const result=await uploadJsonToRemote(url,data);
+        if(result.ok)showToast("✓ Игры опубликованы ("+result.method+" → "+result.provider+"). Зрители увидят после перезагрузки");
+        else showToast(explainUploadFailure(result));
+      });
+
+      // --- Добавление игры с загрузкой обложки ---
+      const fileInput=$("#addCoverFile");
+      if(fileInput)fileInput.addEventListener("change",async()=>{
+        const f=fileInput.files&&fileInput.files[0];
+        if(!f)return;
+        addCoverData=await readCoverFile(f);
+        const prev=$("#addPreview");
+        if(addCoverData){prev.src=addCoverData;prev.hidden=false;$("#addCoverUrl").value="";showToast("Обложка сжата и готова")}
+        else{prev.hidden=true;showToast("Не удалось прочитать картинку")}
+      });
+      $("#addGameBtn").addEventListener("click",()=>{
+        const title=($("#addTitle").value||"").trim();
+        if(!title){showToast("Введи название игры");return}
+        const key=normKey(title);
+        if(CATALOG.some(g=>g.id===key)){showToast("Такая игра уже есть — поменяй ей статус в списке ниже");return}
+        const tags=[];
+        if($("#addMp").checked)tags.push("mp");
+        if($("#addCoop").checked)tags.push("coop");
+        const game={
+          title,
+          genre:($("#addGenre").value||"").trim()||"Не указан",
+          year:parseInt($("#addYear").value,10)||new Date().getFullYear(),
+          status:$("#addStatus").value,
+          tags,
+          cover:addCoverData||($("#addCoverUrl").value||"").trim()||""
+        };
+        const next=CUSTOM_GAMES.concat([game]);
+        if(!saveCustomGames(next))return;
+        CUSTOM_GAMES=next;addCoverData="";
+        onDataChanged();renderAdminList();
+        showToast("Игра добавлена. Не забудь ⬆️ Игры и ⬆️ Статусы, чтобы увидели зрители");
+      });
+
+      // --- Экспорт / импорт / сброс ---
+      $("#adminExportBtn").addEventListener("click",()=>{
+        const data={overrides:loadOverrides(),customGames:CUSTOM_GAMES};
+        const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement("a");a.href=url;a.download="lunar1ya-admin-export.json";a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+        showToast("Файл сохранён в загрузках");
+      });
+      $("#adminImportBtn").addEventListener("click",()=>$("#adminImportFile").click());
+      $("#adminImportFile").addEventListener("change",e=>{
+        const f=e.target.files&&e.target.files[0];
+        if(!f)return;
+        const reader=new FileReader();
+        reader.onload=()=>{
+          try{
+            const j=JSON.parse(reader.result);
+            if(j&&typeof j==="object"&&(j.overrides||j.customGames)){
+              if(j.overrides&&typeof j.overrides==="object")saveOverrides(j.overrides);
+              if(Array.isArray(j.customGames)){CUSTOM_GAMES=j.customGames;if(!saveCustomGames(CUSTOM_GAMES))return}
+            }else if(j&&typeof j==="object"){
+              saveOverrides(j); // голый объект правок
+            }
+            onDataChanged();renderAdminList();showToast("Импортировано");
+          }catch{showToast("Не JSON или битый файл")}
+        };
+        reader.readAsText(f);
+        e.target.value="";
+      });
+      $("#adminResetBtn").addEventListener("click",()=>{
+        if(!confirm("Удалить ВСЕ локальные правки (статусы, флаги, жанры, года)? Свои игры останутся."))return;
+        try{localStorage.removeItem(LS.OVERRIDES)}catch{}
+        _ovCache=null;_ovRaw=null;
+        onDataChanged();renderAdminList();showToast("Локальные правки сброшены");
+      });
+      $("#adminLogoutBtn").addEventListener("click",adminLogout);
+      $("#adminCloseBtn").addEventListener("click",closeAdmin);
+
+      // --- Поиск по списку ---
+      const search=$("#adminSearch");
+      if(search)search.addEventListener("input",()=>{
+        const q=search.value.toLowerCase().trim();
+        adminContent.querySelectorAll(".admin-row").forEach(r=>{
+          const hit=!q||r.dataset.title.includes(q)||(r.dataset.genre||"").includes(q);
+          r.style.display=hit?"":"none";
+        });
+      });
+
+      // --- Строки игр ---
+      adminContent.querySelectorAll(".admin-row").forEach(row=>{
+        const id=row.dataset.id;
+        const gameObj=CATALOG.find(g=>g.id===id);
+        if(!gameObj)return;
+
+        const statusSel=row.querySelector(".admin-status");
+        if(statusSel)statusSel.addEventListener("change",()=>{
+          const v=statusSel.value,overrides=loadOverrides();
+          if(!overrides[id])overrides[id]={};
+          if(v==="__default__")delete overrides[id].status;else overrides[id].status=v;
+          if(Object.keys(overrides[id]).length===0)delete overrides[id];
+          saveOverrides(overrides);onDataChanged();
+          row.classList.toggle("has-override",!!overrides[id]);
+          showToast("Статус обновлён — нажми ⬆️ Статусы для публикации");
+        });
+
+        row.querySelectorAll(".admin-flag").forEach(btn=>{
+          btn.addEventListener("click",()=>{
+            const flag=btn.dataset.flag,overrides=loadOverrides();
+            if(!overrides[id])overrides[id]={};
+            const current=effFlag(gameObj,flag),base=baseFlag(gameObj,flag),target=!current;
+            // Оверрайд нужен, только если отличается от базового слоя
+            if(target===base)delete overrides[id][flag];else overrides[id][flag]=target;
+            if(Object.keys(overrides[id]).length===0)delete overrides[id];
+            saveOverrides(overrides);
+            const newVal=effFlag(gameObj,flag);
+            btn.classList.toggle("on",newVal);
+            if(flag==="hidden")row.classList.toggle("admin-row-hidden",newVal);
+            row.classList.toggle("has-override",!!overrides[id]);
+            onDataChanged();
+          });
+        });
+
+        const genreInput=row.querySelector(".g-genre");
+        if(genreInput)genreInput.addEventListener("change",()=>{
+          const v=genreInput.value.trim(),overrides=loadOverrides(),base=baseGenre(gameObj);
+          if(!overrides[id])overrides[id]={};
+          if(!v||v===base)delete overrides[id].genre;else overrides[id].genre=v;
+          if(Object.keys(overrides[id]).length===0)delete overrides[id];
+          saveOverrides(overrides);onDataChanged();
+          row.classList.toggle("has-override",!!overrides[id]);
+          showToast("Жанр обновлён: "+(v||base));
+        });
+        const yearInput=row.querySelector(".g-year");
+        if(yearInput)yearInput.addEventListener("change",()=>{
+          const v=parseInt(yearInput.value,10)||"",overrides=loadOverrides(),base=baseYear(gameObj);
+          if(!overrides[id])overrides[id]={};
+          if(!v||v===base)delete overrides[id].year;else overrides[id].year=v;
+          if(Object.keys(overrides[id]).length===0)delete overrides[id];
+          saveOverrides(overrides);onDataChanged();
+          row.classList.toggle("has-override",!!overrides[id]);
+          showToast("Год обновлён");
+        });
+
+        const del=row.querySelector(".admin-del");
+        if(del)del.addEventListener("click",()=>{
+          if(!confirm("Удалить игру «"+gameObj.title+"» из своих добавленных?"))return;
+          CUSTOM_GAMES=CUSTOM_GAMES.filter(g=>normKey(g.title)!==id);
+          saveCustomGames(CUSTOM_GAMES);
+          const overrides=loadOverrides();delete overrides[id];saveOverrides(overrides);
+          onDataChanged();renderAdminList();showToast("Игра удалена");
+        });
+      });
+    }
+
+    // ================= Запуск =================
     document.getElementById("year").textContent=new Date().getFullYear();
+    $("#adminOpenBtn").addEventListener("click",openAdmin);
+    adminBack.addEventListener("click",e=>{if(e.target.id==="adminBack")closeAdmin()});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&adminBack.classList.contains("open"))closeAdmin()});
+    setAdmin(isAdmin()); // восстановить класс is-admin, если сессия жива
     renderStats();fillGenres();bind();render();
+    // Подтянуть опубликованные статусы/игры для зрителей (асинхронно, без блокировки витрины)
+    loadRemoteData().then(()=>onDataChanged());
+
   </script>
 </body>
 </html>
