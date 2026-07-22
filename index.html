@@ -134,7 +134,10 @@
     @supports (content-visibility:auto){.games[data-view="grid"] .game{content-visibility:auto;contain-intrinsic-size:360px 520px}}
     .game:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.45);border-color:rgba(124,92,255,.5)}
     .cover{position:relative;aspect-ratio:3/4;overflow:hidden;background:rgba(5,6,15,.35)}
-    .games[data-view="list"] .cover{aspect-ratio:auto;width:64px;height:64px;flex-shrink:0;border-radius:10px}
+    .games[data-view="list"] .cover{width:52px;aspect-ratio:3/4;height:auto;flex-shrink:0;border-radius:10px}
+    .games[data-view="list"] .cover>.badge{display:none}
+    .list-badge{display:inline-flex;align-items:center;gap:4px;font-size:.76rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+    .games[data-view="grid"] .list-badge{display:none}
     .cover-img{width:100%;height:100%;object-fit:cover}
     .ph-cover{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:800;color:rgba(255,255,255,.85);text-shadow:0 2px 8px rgba(0,0,0,.4)}
     .badge{position:absolute;top:10px;left:10px;z-index:2;font-size:.74rem;font-weight:700;padding:5px 10px;border-radius:999px;backdrop-filter:blur(4px);background:rgba(0,0,0,.55);color:#fff}
@@ -235,7 +238,7 @@
       .hero-picture{width:min(78vw,340px)}.hero-banner{border-radius:14px}.eyebrow{font-size:.7rem;letter-spacing:3px}.hero h1{font-size:clamp(1.9rem,10vw,2.5rem)}
       .stat{padding:12px 10px}.stat-num{font-size:1.55rem}.stat-label{font-size:.78rem}
       .library-layout{padding:16px var(--page-pad) 48px;gap:16px}.sidebar{grid-template-columns:1fr;gap:12px}.profile-card{padding:16px}.social-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .controls{grid-template-columns:1fr}.view-toggle{grid-column:auto}.games[data-view="list"] .game{align-items:flex-start;gap:10px;padding:10px}.games[data-view="list"] .cover{width:58px;height:78px;aspect-ratio:3/4}.games[data-view="list"] .info{display:block}.g-title{font-size:1rem}
+      .controls{grid-template-columns:1fr}.view-toggle{grid-column:auto}.games[data-view="list"] .game{align-items:flex-start;gap:10px;padding:10px}.games[data-view="list"] .cover{width:58px;aspect-ratio:3/4;height:auto}.games[data-view="list"] .info{display:block}.g-title{font-size:1rem}
       .add-grid{grid-template-columns:1fr 1fr}.admin-status{max-width:120px}.admin-row{flex-wrap:wrap}.admin-row-controls{width:100%;justify-content:flex-end}.admin-list{max-height:52vh}
       .admin-back{padding:0}.admin-panel{min-height:100dvh;border-radius:0;padding:16px;border-left:0;border-right:0}.admin-head{align-items:flex-start}.url-row{display:grid;grid-template-columns:1fr 1fr}.url-row label,.url-row .uinput{grid-column:1/-1;width:100%;min-width:0}.pin-row{flex-direction:column;align-items:stretch}.pin-input{width:100%}
     }
@@ -666,7 +669,8 @@ const GAMES = [
         coverHtml=placeholderCover(v.title);
       }
       const hiddenBadge=v.hidden?`<span class="badge st-hidden" style="left:auto;right:8px">🙈 Скрыта</span>`:"";
-      return`<article class="game${v.hidden?" is-hidden":""}" data-title="${esc(v.title.toLowerCase())}"><div class="cover">${coverHtml}<span class="badge ${st.cls}">${st.label}</span>${hiddenBadge}</div><div class="info"><h3 class="g-title">${esc(v.title)}</h3><div class="g-meta"><span>${esc(v.genre)}</span><span>${esc(v.year)}</span></div><div class="g-tags">${tags}</div></div></article>`;
+      const listBadge=`<span class="list-badge ${st.cls}">${st.label}</span>`;
+      return`<article class="game${v.hidden?" is-hidden":""}" data-title="${esc(v.title.toLowerCase())}"><div class="cover">${coverHtml}<span class="badge ${st.cls}">${st.label}</span>${hiddenBadge}</div><div class="info"><h3 class="g-title">${esc(v.title)}</h3>${listBadge}<div class="g-meta"><span>${esc(v.genre)}</span><span>${esc(v.year)}</span></div><div class="g-tags">${tags}</div></div></article>`;
     }
 
     function renderStats(){
