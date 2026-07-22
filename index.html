@@ -7,6 +7,7 @@
   <meta name="description" content="Личная библиотека игр Lunar1ya: каталог с фильтрами по статусу, жанру и эпохе." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060f'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%237c5cff'/%3E%3C/svg%3E" type="image/svg+xml" />
   <link rel="preload" as="image" href="https://raw.githubusercontent.com/Joonttee/Lunar1ya/main/avatar.png" />
+  <link rel="preload" as="image" href="hero-banner.png" />
   <style>
     :root{
       --bg:#05060f;--bg-2:#0b0f24;--surface:rgba(22,27,54,.6);--surface-2:rgba(30,36,70,.75);
@@ -55,6 +56,7 @@
       background:linear-gradient(120deg,#fff,#b8b2ff 60%,var(--accent-2));
       -webkit-background-clip:text;background-clip:text;color:transparent}
     .hero-sub{color:var(--muted);margin:16px auto 0;max-width:560px}
+    .hero-banner{max-width:680px;width:100%;margin:0 auto 20px;border-radius:18px;box-shadow:0 12px 40px rgba(124,92,255,.35),0 0 0 1px rgba(124,92,255,.25)}
     .stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
     .stat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 22px;min-width:130px}
     .stat-num{display:block;font-size:1.9rem;font-weight:800;color:var(--accent-2)}
@@ -201,13 +203,13 @@
     <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true"></span><span class="logo-text">LUNAR<span class="accent">1</span>YA</span></a>
     <nav class="nav" aria-label="Меню">
       <a href="#library">Библиотека</a>
-      <button type="button" class="admin-open" id="adminOpenBtn" title="Админ-панель">⚙ Админ</button>
+      <button type="button" class="admin-open" id="adminOpenBtn" title="Админ-панель"style="display:none">⚙ Админ</button>
     </nav>
   </header>
 
   <section class="hero" id="top">
     <div class="hero-inner">
-      <p class="eyebrow">Личная коллекция</p>
+      <img class="hero-banner" src="hero-banner.png" alt="Lunar1ya — ночной геймер с белой лаской" />
       <h1>Библиотека игр</h1>
       <p class="hero-sub">Каталог игр с фильтрами по статусу, жанру и эпохе. Всё под рукой.</p>
       <div class="stats" id="stats">
@@ -1043,8 +1045,10 @@ const GAMES = [
     document.getElementById("year").textContent=new Date().getFullYear();
     $("#adminOpenBtn").addEventListener("click",openAdmin);
     adminBack.addEventListener("click",e=>{if(e.target.id==="adminBack")closeAdmin()});
-    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&adminBack.classList.contains("open"))closeAdmin()});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&adminBack.classList.contains("open"))closeAdmin();if(e.ctrlKey&&e.shiftKey&&(e.key==="A"||e.key==="a"||e.key==="Ф"||e.key==="ф")){e.preventDefault();openAdmin()}});
     setAdmin(isAdmin()); // восстановить класс is-admin, если сессия жива
+    // Скрытый доступ: 5 кликов по логотипу за 2 секунды
+    (function(){var clicks=0,timer=null;document.querySelector(".logo").addEventListener("click",function(e){e.preventDefault();clicks++;clearTimeout(timer);if(clicks>=5){clicks=0;openAdmin()}else{timer=setTimeout(function(){clicks=0},2000)}})})();
     renderStats();fillGenres();bind();render();
     // Подтянуть опубликованные статусы/игры для зрителей (асинхронно, без блокировки витрины)
     loadRemoteData().then(()=>onDataChanged());
