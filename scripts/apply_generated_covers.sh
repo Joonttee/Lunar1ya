@@ -3,6 +3,7 @@ set -euo pipefail
 FONT=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
 render() {
   slug="$1"; title="$2"
+  [[ -f "covers_new/${slug}.png" ]] || return 0
   convert "covers_new/${slug}.png" -resize '600x800^' -gravity center -extent 600x800 \
     \( -size 600x210 gradient:'#05030dcc-none' \) -gravity north -compose over -composite \
     \( -size 530x175 -background none -fill '#fffafc' -stroke '#100817' -strokewidth 4 \
