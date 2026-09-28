@@ -4,24 +4,27 @@
 #   scripts/replace_art.sh <src-image> [hero|avatar|both]
 #
 # Примеры:
-#   scripts/replace_art.sh ~/image-2.png hero
-#   GRAVITY=north scripts/replace_art.sh ~/image-2.jpg both
+#   scripts/replace_art.sh assets/src/hero-source.jpg hero
+#   GRAVITY=north scripts/replace_art.sh assets/src/hero-source.jpg hero
+#   GRAVITY=center OFFSET_Y=-40 scripts/replace_art.sh assets/src/hero-source.jpg both
 #
-# Параметры кадрирования (опционально):
-#   GRAVITY=center|north|south|...   точка фокуса при кропе (по умолчанию center)
-#   OFFSET=+0-40                     сдвиг кропа относительно GRAVITY
+# Управление кадрированием:
+#   GRAVITY=center|north|south|west|east   точка фокуса (по умолчанию center)
+#   OFFSET_Y=-40                           дополнительный сдвиг окна по вертикали,
+#                                          в пикселях в масштабе 895x1200 (отрицательный — выше)
 #
-# Из одного исходника пересобираются все responsive-варианты:
-#   assets/hero-banner-{480,720,895}.{avif,webp,jpg}   (aspect 895:1200)
-#   assets/avatar-{160,320}.{avif,webp,jpg}            (square)
-# Качество как у существующих ассетов: JPG 82, WebP 92, AVIF 92.
+# Из одного исходника пересобираются все responsive-варианты существующего пайплайна:
+#   assets/hero-banner-{480,720,895}.{avif,webp,jpg}   (кадр 895:1200)
+#   assets/avatar-{160,320}.{avif,webp,jpg}            (квадрат)
+# Качество как у текущих ассетов: JPG 82, WebP 92, AVIF 55.
 
 set -euo pipefail
 
 SRC="${1:-}"
 TARGET="${2:-hero}"
 GRAVITY="${GRAVITY:-center}"
-OFFSET="${OFFSET:-+0+0}"
+OFFSET_Y="${OFFSET_Y:-0}"
+REF_H=1200
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
@@ -31,37 +34,54 @@ if [[ -z "$SRC" || ! -f "$SRC" ]]; then
   exit 1
 fi
 
-# Кадрирование под нужный aspect + ресайз под каждый размер.
-variant() {  # variant <out-prefix> <width> <height>
-  local prefix="$1" w="$2" h="$3"
-  convert "$SRC" -auto-orient -strip \
-    -resize "${w}x${h}^" -gravity "$GRAVITY" -extent "${w}x${h}" \
-    -geometry "$OFFSET" "$TMP/${prefix}.png"
+# Кроп под нужный кадр: ресайз «вписать по меньшей стороне» + окно с фокусом.
+variant() { # variant <out-name> <width> <height>
+  local name="$1" w="$2" h="$3"
+  convert "$SRC" -auto-orient -strip -resize "${w}x${h}^" "$TMP/filled.png"
+  local dims fw fh ox oy
+  dims="$(identify -format "%w %h" "$TMP/filled.png")"
+  fw="${dims%% *}"; fh="${dims##* }"
+  ox=$(( (fw - w) / 2 )); oy=$(( (fh - h) / 2 ))
+  case "$GRAVITY" in
+    north) oy=0 ;;
+    south) oy=$(( fh - h )) ;;
+    west)  ox=0 ;;
+    east)  ox=$(( fw - w )) ;;
+  esac
+  oy=$(( oy + OFFSET_Y * h / REF_H ))
+  (( oy < 0 )) && oy=0
+  (( oy > fh - h )) && oy=$(( fh - h ))
+  (( ox < 0 )) && ox=0
+  (( ox > fw - w )) && ox=$(( fw - w ))
+  convert "$TMP/filled.png" -crop "${w}x${h}+${ox}+${oy}" +repage "$TMP/${name}.png"
 }
 
-emit() {  # emit <png> <dest-base> <quality-avif> <quality-webp> <quality-jpg>
-  local png="$1" base="$2" qa="$3" qw="$4" qj="$5"
-  convert "$png" -quality "$qw" "${base}.webp"
-  convert "$png" -quality "$qj" "${base}.jpg"
-  convert "$png" -quality "$qa" "${base}.avif"
+# JPG — только для старшего размера: он единственный fallback в index.html,
+# младшие размеры живут парами AVIF+WebP (так исторически сложилось в assets/).
+emit() { # emit <png> <dest-base> [jpg]
+  local png="$1" base="$2" want_jpg="${3:-}"
+  convert "$png" -quality "${AVIF_Q:-55}" "${base}.avif"
+  convert "$png" -quality 92 "${base}.webp"
+  [[ -n "$want_jpg" ]] && convert "$png" -quality 82 "${base}.jpg"
+  echo "  ✓ $(basename "${base}").{avif,webp${want_jpg:+,jpg\}}"
 }
 
 if [[ "$TARGET" == "hero" || "$TARGET" == "both" ]]; then
-  for size in "480 643" "720 965" "895 1200"; do
-    set -- $size
-    variant "hero-$1" "$1" "$2"
-    emit "$TMP/hero-$1.png" "$ROOT/assets/hero-banner-$1" "${AVIF_Q:-55}" 92 82
-    echo "✓ assets/hero-banner-$1.{avif,webp,jpg}"
-  done
+  echo "hero (кадр 895:1200, GRAVITY=$GRAVITY, OFFSET_Y=$OFFSET_Y):"
+  variant hero-480 480 643
+  variant hero-720 720 965
+  variant hero-895 895 1200
+  emit "$TMP/hero-480.png" "$ROOT/assets/hero-banner-480"
+  emit "$TMP/hero-720.png" "$ROOT/assets/hero-banner-720"
+  emit "$TMP/hero-895.png" "$ROOT/assets/hero-banner-895" jpg
 fi
 
 if [[ "$TARGET" == "avatar" || "$TARGET" == "both" ]]; then
-  for size in "160 160" "320 320"; do
-    set -- $size
-    variant "avatar-$1" "$1" "$2"
-    emit "$TMP/avatar-$1.png" "$ROOT/assets/avatar-$1" "${AVIF_Q:-55}" 92 82
-    echo "✓ assets/avatar-$1.{avif,webp,jpg}"
-  done
+  echo "avatar (квадрат, GRAVITY=$GRAVITY, OFFSET_Y=$OFFSET_Y):"
+  variant avatar-160 160 160
+  variant avatar-320 320 320
+  emit "$TMP/avatar-160.png" "$ROOT/assets/avatar-160"
+  emit "$TMP/avatar-320.png" "$ROOT/assets/avatar-320" jpg
 fi
 
-echo "Готово. Проверьте результат: python3 -m http.server 8000"
+echo "Готово: python3 -m http.server 8000"

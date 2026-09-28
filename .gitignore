@@ -10,6 +10,7 @@ build/
 # Images - keep only optimized WebP in repo, originals can be large
 covers/*.png
 !covers_webp/
+assets/src/
 
 # OS files
 .DS_Store
