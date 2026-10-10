@@ -4,7 +4,7 @@
 
 ## 🎮 Особенности
 
-- **88 игр** с уникальными обложками и персонажем Lunar1ya
+- **103 игры** с уникальными обложками и персонажем Lunar1ya
 - **🔐 Админка с PIN-кодом**: статусы, MP/Coop, скрытие игр, правка жанра/года — прямо на сайте
 - **➕ Добавление игр с загрузкой обложек** (автосжатие до WebP 300px) — без правки кода
 - **☁️ Upload для зрителей**: публикация статусов и каталога в удалённое JSON-хранилище (Pantry / jsonbin), как на [MikkleoGame](https://joonttee.github.io/MikkleoGame/)
@@ -35,7 +35,7 @@
 
 ## 🖼️ Обложки
 
-Все 88 обложек созданы с использованием аватара Lunar1ya (серебристые волосы, фиолетовые глаза) в нативном арт-стиле каждой игры:
+Все 103 обложки созданы с использованием аватара Lunar1ya (серебристые волосы, фиолетовые глаза) в нативном арт-стиле каждой игры:
 - Hand-drawn painterly (Constance, Hollow Knight)
 - Pixel art (Stardew Valley, Replaced, Scam Line)
 - Photorealistic / RE Engine (The Last of Us, Resident Evil, Metro)
@@ -83,6 +83,7 @@ const GAMES = [
     year: 2024,
     status: "playing",     // new | playing | done | planned
     tags: ["coop"],        // mp | coop (опционально)
+    hidden: false,         // опционально: true — скрыть игру от зрителей (видна только в админке)
     cover: "covers_webp/Name.webp",
     coverFallback: "covers/Name.png"
   },
