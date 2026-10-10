@@ -83,6 +83,7 @@ const GAMES = [
     year: 2024,
     status: "playing",     // new | playing | done | planned
     tags: ["coop"],        // mp | coop (опционально)
+    hidden: false,         // опционально: true — скрыть игру от зрителей (видна только в админке)
     cover: "covers_webp/Name.webp",
     coverFallback: "covers/Name.png"
   },
